@@ -5,48 +5,93 @@
 'use strict';
 
 var React = require('react-native');
+
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
 } = React;
-
-var backbone = React.createClass({
-  render: function() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-});
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
+  header: {
+    flex: 1,
+    fontSize: 36,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 35,
+    padding: 25,
+  },
+  activity: {
+    height: 125,
+    width: 125,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    margin: 25,
+    justifyContent: 'center',
+  },
+  posture: {
+    height: 125,
+    width: 125,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    margin: 25,
+    justifyContent: 'center',
+  },
+  contact: {
+    flex: 1,
+    height: 50,
+    width: 125,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignSelf: 'center',
+    margin: 25,
+  },
+  text: {
+    alignSelf: 'center',
+    color: 'white',
+    fontWeight: 'bold',
     fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  contactText: {
+    alignSelf: 'center',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+});
+
+var backbone = React.createClass({
+  render: function() {
+    return (
+      <View>
+        <Text style={styles.header}>Backbone</Text>
+        <View style={styles.container}>
+          <TouchableHighlight style={styles.activity}>
+            <Text style={styles.text}>Activity</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.posture}>
+            <Text style={styles.text}>Posture</Text>
+          </TouchableHighlight>
+        </View>
+        <TouchableHighlight style={styles.contact}>
+          <Text style={styles.contactText}>Talk To Us</Text>
+        </TouchableHighlight>
+      </View>
+    );
   },
 });
 
