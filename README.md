@@ -1,2 +1,2 @@
 # backbone
-Mobile facing app for the Bytefrost Backbone wearable product
+Mobile-facing app for the Bytefrost Backbone wearable product
