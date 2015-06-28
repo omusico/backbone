@@ -4,6 +4,7 @@ var React = require('react-native');
 var Icon = require('FAKIconImage');
 var ActivityPage = require('./ActivityPage');
 var PosturePage = require('./PosturePage');
+var CommunicatePage = require('./CommunicatePage');
 
 var {
   AppRegistry,
@@ -115,6 +116,12 @@ var HomePage = React.createClass({
       component: PosturePage,
     });
   },
+  goToCommunicate: function() {
+    this.props.navigator.push({
+      title: 'Talk with us',
+      component: CommunicatePage,
+    });
+  },
   render: function() {
     return (
       <View>
@@ -148,7 +155,7 @@ var HomePage = React.createClass({
             color='#48BBEC'
             style={styles.chatbubbles}
           />
-          <TouchableHighlight style={styles.contact}>
+          <TouchableHighlight style={styles.contact} onPress={this.goToCommunicate}>
             <Text style={styles.talkText}>Talk with us</Text>
           </TouchableHighlight>
         </View>
