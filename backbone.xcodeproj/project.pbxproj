@@ -23,6 +23,9 @@
 		F1C80E451B3F68A900E1305A /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C80E441B3F689D00E1305A /* libReactNativeIcons.a */; };
 		F1C80E771B3F73AD00E1305A /* FAKIonIcons.h in Resources */ = {isa = PBXBuildFile; fileRef = F1C80E681B3F73AD00E1305A /* FAKIonIcons.h */; };
 		F1C80E781B3F73AD00E1305A /* FAKIonIcons.m in Resources */ = {isa = PBXBuildFile; fileRef = F1C80E691B3F73AD00E1305A /* FAKIonIcons.m */; };
+		F1C80E8B1B3F8A4600E1305A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
+		F1C80E971B3F8A4900E1305A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		F1C80E981B3F8A4E00E1305A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -538,6 +541,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1C80E981B3F8A4E00E1305A /* LaunchScreen.xib in Resources */,
+				F1C80E971B3F8A4900E1305A /* Images.xcassets in Resources */,
+				F1C80E8B1B3F8A4600E1305A /* main.jsbundle in Resources */,
 				F1C80E771B3F73AD00E1305A /* FAKIonIcons.h in Resources */,
 				F1C80E781B3F73AD00E1305A /* FAKIonIcons.m in Resources */,
 			);
