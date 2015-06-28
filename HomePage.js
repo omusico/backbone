@@ -127,7 +127,7 @@ var HomePage = React.createClass({
       <View>
         <Text style={styles.header}>Backbone</Text>
         <View style={styles.container}>
-          <TouchableHighlight style={styles.activity} onPress={this.goToActivity}>
+          <TouchableHighlight style={styles.activity} underlayColor='#99d9f4' onPress={this.goToActivity}>
             <Icon
               name='ion|iosPulseStrong'
               size={100}
@@ -135,7 +135,7 @@ var HomePage = React.createClass({
               style={styles.iosPulseStrong}
             />
           </TouchableHighlight>
-          <TouchableHighlight style={styles.posture} onPress={this.goToPosture}>
+          <TouchableHighlight style={styles.posture} underlayColor='#99d9f4' onPress={this.goToPosture}>
             <Icon
               name='ion|iosBodyOutline'
               size={100}
@@ -155,7 +155,7 @@ var HomePage = React.createClass({
             color='#48BBEC'
             style={styles.chatbubbles}
           />
-          <TouchableHighlight style={styles.contact} onPress={this.goToCommunicate}>
+          <TouchableHighlight style={styles.contact} underlayColor='#99d9f4' onPress={this.goToCommunicate}>
             <Text style={styles.talkText}>Talk with us</Text>
           </TouchableHighlight>
         </View>
