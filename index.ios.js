@@ -5,6 +5,7 @@
 'use strict';
 
 var React = require('react-native');
+var Icon = require('FAKIconImage');
 
 var {
   AppRegistry,
@@ -26,8 +27,9 @@ var styles = StyleSheet.create({
     fontSize: 36,
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: 35,
+    marginTop: 50,
     padding: 25,
+    color: '#48BBEC'
   },
   activity: {
     height: 125,
@@ -49,28 +51,56 @@ var styles = StyleSheet.create({
     margin: 25,
     justifyContent: 'center',
   },
-  contact: {
-    flex: 1,
-    height: 50,
-    width: 125,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    margin: 25,
-  },
-  text: {
-    alignSelf: 'center',
-    color: 'white',
-    fontWeight: 'bold',
+  textActivity: {
+    marginRight: 60,
+    color: '#48BBEC',
     fontSize: 20,
+    marginTop: -20,
   },
-  contactText: {
-    alignSelf: 'center',
-    color: 'black',
-    fontWeight: 'bold',
+  textPosture: {
+    marginLeft: 50,
+    color: '#48BBEC',
+    fontSize: 20,
+    marginTop: -20,
+  },
+  footer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 40,
+    marginLeft: 10,
+  },
+  contact: {
+    borderRadius: 16,
+    borderWidth: 2,
+    borderColor: '#48BBEC',
+    margin: 10,
+  },
+  talkText: {
     fontSize: 16,
+    padding: 15,
+    color: '#48BBEC',
+  },
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: -5,
+  },
+  iosBodyOutline: {
+    height: 100,
+    width: 100,
+    alignSelf: 'center',
+  },
+  iosPulseStrong: {
+    height: 100,
+    width: 100,
+    alignSelf: 'center',
+  },
+  chatbubbles: {
+    height: 50,
+    width: 50,
   },
 });
 
@@ -81,15 +111,37 @@ var backbone = React.createClass({
         <Text style={styles.header}>Backbone</Text>
         <View style={styles.container}>
           <TouchableHighlight style={styles.activity}>
-            <Text style={styles.text}>Activity</Text>
+            <Icon
+              name='ion|iosPulseStrong'
+              size={100}
+              color='#ffffff'
+              style={styles.iosPulseStrong}
+            />
           </TouchableHighlight>
           <TouchableHighlight style={styles.posture}>
-            <Text style={styles.text}>Posture</Text>
+            <Icon
+              name='ion|iosBodyOutline'
+              size={100}
+              color='#ffffff'
+              style={styles.iosBodyOutline}
+            />
           </TouchableHighlight>
         </View>
-        <TouchableHighlight style={styles.contact}>
-          <Text style={styles.contactText}>Talk To Us</Text>
-        </TouchableHighlight>
+        <View style={styles.textContainer}>
+          <Text style={styles.textActivity}>Activity</Text>
+          <Text style={styles.textPosture}>Posture</Text>
+        </View>
+        <View style={styles.footer}>
+          <Icon
+            name='ion|chatbubbles'
+            size={50}
+            color='#48BBEC'
+            style={styles.chatbubbles}
+          />
+          <TouchableHighlight style={styles.contact}>
+            <Text style={styles.talkText}>Talk with us</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   },
