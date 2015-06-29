@@ -68,17 +68,21 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 40,
-    marginLeft: 10,
   },
   contact: {
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: '#48BBEC',
     margin: 10,
   },
+  contactButton: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 5,
+  },
   talkText: {
-    fontSize: 16,
-    padding: 15,
+    fontSize: 14,
+    padding: 10,
     color: '#48BBEC',
   },
   textContainer: {
@@ -88,20 +92,40 @@ var styles = StyleSheet.create({
     marginBottom: -5,
   },
   iosBodyOutline: {
-    height: 100,
-    width: 100,
+    height: 85,
+    width: 85,
     alignSelf: 'center',
   },
   iosPulseStrong: {
-    height: 100,
-    width: 100,
+    height: 85,
+    width: 85,
     alignSelf: 'center',
   },
   chatbubbles: {
-    height: 50,
-    width: 50,
+    height: 35,
+    width: 35,
   },
+  buttonBorder: {
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: '#ffffff',
+    backgroundColor: '#48BBEC',
+    marginRight: 5,
+    marginLeft: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
+  }
 });
+
+var NavButton = React.createClass({
+  render: function() {
+    return (
+      <TouchableHighlight style={this.props.buttonStyle} underlayColor='#99d9f4' onPress={this.props.nav}>
+        {this.props.children}
+      </TouchableHighlight>
+    )
+  }
+})
 
 var HomePage = React.createClass({
   goToActivity: function() {
@@ -127,37 +151,43 @@ var HomePage = React.createClass({
       <View>
         <Text style={styles.header}>Backbone</Text>
         <View style={styles.container}>
-          <TouchableHighlight style={styles.activity} underlayColor='#99d9f4' onPress={this.goToActivity}>
-            <Icon
-              name='ion|iosPulseStrong'
-              size={100}
-              color='#ffffff'
-              style={styles.iosPulseStrong}
-            />
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.posture} underlayColor='#99d9f4' onPress={this.goToPosture}>
+          <NavButton buttonStyle={styles.activity} nav={this.goToActivity}>
+            <View style={styles.buttonBorder}>
+              <Icon
+                name='ion|iosPulseStrong'
+                size={85}
+                color='#ffffff'
+                style={styles.iosPulseStrong}
+              />
+            </View>
+          </NavButton>
+          <NavButton buttonStyle={styles.activity} nav={this.goToPosture}>
+            <View style={styles.buttonBorder}>
             <Icon
               name='ion|iosBodyOutline'
-              size={100}
+              size={85}
               color='#ffffff'
               style={styles.iosBodyOutline}
             />
-          </TouchableHighlight>
+            </View>
+          </NavButton>
         </View>
         <View style={styles.textContainer}>
           <Text style={styles.textActivity}>Activity</Text>
           <Text style={styles.textPosture}>Posture</Text>
         </View>
         <View style={styles.footer}>
-          <Icon
-            name='ion|chatbubbles'
-            size={50}
-            color='#48BBEC'
-            style={styles.chatbubbles}
-          />
-          <TouchableHighlight style={styles.contact} underlayColor='#99d9f4' onPress={this.goToCommunicate}>
-            <Text style={styles.talkText}>Talk with us</Text>
-          </TouchableHighlight>
+          <NavButton buttonStyle={styles.contact} nav={this.goToCommunicate}>
+            <View style={styles.contactButton}>
+              <Icon
+                name='ion|chatbubbles'
+                size={35}
+                color='#48BBEC'
+                style={styles.chatbubbles}
+              />
+              <Text style={styles.talkText}>Questions/suggestions? Talk with us.</Text>
+            </View>
+          </NavButton>
         </View>
       </View>
     );

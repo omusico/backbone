@@ -6,13 +6,16 @@
 
 var React = require('react-native');
 var Icon = require('FAKIconImage');
+var Firebase = require('firebase');
 var HomePage = require('./HomePage');
+var AuthPage = require('./AuthPage');
 
 var {
   AppRegistry,
   StyleSheet,
   Text,
   View,
+  Navigator,
 } = React;
 
 var styles = StyleSheet.create({
@@ -29,13 +32,15 @@ var backbone = React.createClass({
   },
   render: function() {
     return (
-      <React.NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          title: 'Welcome, ' + this.state.name,
-          backButtonTitle: 'Home',
-          component: HomePage,
-      }}/>
+      <Navigator
+        initialRoute={{name: 'AuthPage', component: AuthPage}}
+        renderScene={(route, navigator) => {
+          if (route.component) {
+            return React.createElement(route.component, { navigator })
+          }
+        }
+      }
+      />
     );
   },
 });
