@@ -20,6 +20,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		F18932EF1B4254A800A1141F /* FAKIcon.m in Resources */ = {isa = PBXBuildFile; fileRef = F18932EE1B4254A800A1141F /* FAKIcon.m */; };
+		F18932FC1B4254C200A1141F /* FAKIcon.h in Resources */ = {isa = PBXBuildFile; fileRef = F18932FB1B4254C200A1141F /* FAKIcon.h */; };
 		F1C80E451B3F68A900E1305A /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C80E441B3F689D00E1305A /* libReactNativeIcons.a */; };
 		F1C80E771B3F73AD00E1305A /* FAKIonIcons.h in Resources */ = {isa = PBXBuildFile; fileRef = F1C80E681B3F73AD00E1305A /* FAKIonIcons.h */; };
 		F1C80E781B3F73AD00E1305A /* FAKIonIcons.m in Resources */ = {isa = PBXBuildFile; fileRef = F1C80E691B3F73AD00E1305A /* FAKIonIcons.m */; };
@@ -137,6 +139,8 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		F18932EE1B4254A800A1141F /* FAKIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKIcon.m; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIcon.m"; sourceTree = "<group>"; };
+		F18932FB1B4254C200A1141F /* FAKIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKIcon.h; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIcon.h"; sourceTree = "<group>"; };
 		F1C80E351B3F689D00E1305A /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
 		F1C80E681B3F73AD00E1305A /* FAKIonIcons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKIonIcons.h; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIonIcons.h"; sourceTree = "<group>"; };
 		F1C80E691B3F73AD00E1305A /* FAKIonIcons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKIonIcons.m; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIonIcons.m"; sourceTree = "<group>"; };
@@ -303,6 +307,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F18932FB1B4254C200A1141F /* FAKIcon.h */,
+				F18932EE1B4254A800A1141F /* FAKIcon.m */,
 				F1C80E681B3F73AD00E1305A /* FAKIonIcons.h */,
 				F1C80E691B3F73AD00E1305A /* FAKIonIcons.m */,
 				13B07FAE1A68108700A75B9A /* backbone */,
@@ -541,6 +547,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F18932FC1B4254C200A1141F /* FAKIcon.h in Resources */,
+				F18932EF1B4254A800A1141F /* FAKIcon.m in Resources */,
 				F1C80E981B3F8A4E00E1305A /* LaunchScreen.xib in Resources */,
 				F1C80E971B3F8A4900E1305A /* Images.xcassets in Resources */,
 				F1C80E8B1B3F8A4600E1305A /* main.jsbundle in Resources */,
