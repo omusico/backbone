@@ -23,7 +23,7 @@ var PosturePage = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-      <Text>This is the posture page.</Text>
+      <Text onPress={() => this.props.navigator.pop()}>This is the posture page. Press to go back.</Text>
       </View>
     )
   },

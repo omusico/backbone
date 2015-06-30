@@ -21,9 +21,10 @@ var styles = StyleSheet.create({
 
 var ActivityPage = React.createClass({
   render: function() {
+    debugger;
     return (
       <View style={styles.container}>
-      <Text>This is the activity page.</Text>
+      <Text onPress={() => this.props.navigator.pop()}>This is the activity page. Press to go back.</Text>
       </View>
     )
   },
