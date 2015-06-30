@@ -10,6 +10,7 @@ var {
   Text,
   TextInput,
   TouchableHighlight,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -61,21 +62,26 @@ var styles = StyleSheet.create({
 var LoginPage = React.createClass({
   getInitialState: function() {
     return {
-      email: null,
-      password: null,
-    }
+      email: '',
+      password: '',
+      message: '',
+      isLoading: false,
+    };
   },
   updateEmail: function(e) {
     this.setState({
       email: e.nativeEvent.text
-    })
+    });
   },
   updatePassword: function(e) {
     this.setState({
       password: e.nativeEvent.text
-    })
+    });
   },
   authenticateUser: function() {
+    this.setState({
+      isLoading: true
+    });
     var context = this;
     var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
     ref.authWithPassword({
@@ -83,13 +89,26 @@ var LoginPage = React.createClass({
       password: this.state.password,
     }, function(error, userData) {
       if (error) {
+        context.setState({
+          isLoading: false,
+          message: 'Login failed!'
+        });
         console.log('Login failed! ', error);
       } else {
-        context.props.navigator.push({name: 'Home', component: HomePage})
+        context.setState({
+          isLoading: false,
+          message: 'Login succeeded!'
+        });
+        context.props.navigator.push({name: 'Home', component: HomePage});
       }
-    })
+    });
   },
   render: function() {
+    var spinner = this.state.isLoading ?
+    ( <ActivityIndicatorIOS
+        hidden='true'
+        size='small' />) :
+    (<View><Text> {this.state.message}</Text></View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>
@@ -104,6 +123,7 @@ var LoginPage = React.createClass({
           <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableHighlight>
+          {spinner}
         </View>
       </View>
     )

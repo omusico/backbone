@@ -161,7 +161,7 @@ var HomePage = React.createClass({
               />
             </View>
           </NavButton>
-          <NavButton buttonStyle={styles.activity} nav={this.goToPosture}>
+          <NavButton buttonStyle={styles.posture} nav={this.goToPosture}>
             <View style={styles.buttonBorder}>
             <Icon
               name='ion|iosBodyOutline'

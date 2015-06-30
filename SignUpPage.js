@@ -9,6 +9,7 @@ var {
   Text,
   TextInput,
   TouchableHighlight,
+  ActivityIndicatorIOS
 } = React;
 
 var styles = StyleSheet.create({
@@ -55,26 +56,31 @@ var styles = StyleSheet.create({
   textInput: {
     margin: 2,
   }
-})
+});
 
 var SignUpPage = React.createClass({
   getInitialState: function() {
     return {
-      email: null,
-      password: null,
-    }
+      email: '',
+      password: '',
+      message: '',
+      isLoading: false,
+    };
   },
   updateEmail: function(e) {
     this.setState({
       email: e.nativeEvent.text
-    })
+    });
   },
   updatePassword: function(e) {
     this.setState({
       password: e.nativeEvent.text
-    })
+    });
   },
   newUser: function() {
+    this.setState({
+      isLoading: true
+    });
     var context = this;
     var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
     ref.createUser({
@@ -82,13 +88,26 @@ var SignUpPage = React.createClass({
       password: this.state.password,
     }, function(error, userData) {
       if (error) {
+        context.setState({
+          isLoading: false,
+          message: 'Sign-up failed!'
+        });
         console.log('Error: ', error);
       } else {
-        context.props.navigator.push({name: 'Home', component: HomePage})
+        context.setState({
+          isLoading: false,
+          message: 'Sign-up succeeded!'
+        });
+        context.props.navigator.push({name: 'Home', component: HomePage});
       }
-    })
+    });
   },
   render: function() {
+    var spinner = this.state.isLoading ?
+      ( <ActivityIndicatorIOS
+          hidden='true'
+          size='small' />) :
+      (<View><Text>{this.state.message}</Text></View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>
@@ -103,6 +122,7 @@ var SignUpPage = React.createClass({
           <TouchableHighlight style={styles.button} onPress={this.newUser}>
             <Text style={styles.buttonText}>Sign-up</Text>
           </TouchableHighlight>
+          {spinner}
         </View>
       </View>
     )
