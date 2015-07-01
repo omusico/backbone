@@ -6,6 +6,7 @@ var ActivityPage = require('./ActivityPage');
 var PosturePage = require('./PosturePage');
 var CommunicatePage = require('./CommunicatePage');
 var ChangeEmail = require('./ChangeEmail');
+var ChangePassword = require('./ChangePassword');
 var CustomTabBar = require('./CustomTabBar');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 
@@ -93,16 +94,6 @@ var HomePage = React.createClass({
     });
   },
   render: function() {
-    var changeEmailInput = this.state.changingEmail ? (<ChangeEmail email={this.props.navigator.route.email} />) : (<View />);
-    var changeSave = this.state.changingEmail ?
-      ( <View style={{flex: 1, flexDirection: 'row'}}>
-        <TouchableHighlight style={styles.editButton}>
-          <Text style={styles.buttonText} onPress={this.changeEmail}>Cancel</Text>
-        </TouchableHighlight>
-        </View>) :
-      (<TouchableHighlight style={styles.button} onPress={this.changeEmail}>
-        <Text style={styles.buttonText}>Change email</Text>
-      </TouchableHighlight>)
     return (
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
@@ -118,11 +109,8 @@ var HomePage = React.createClass({
           </ScrollView>
           <ScrollView tabLabel="ion|gearB" style={styles.tabView}>
             <View style={styles.card}>
-              {changeEmailInput}
-              {changeSave}
-              <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>
-                <Text style={styles.buttonText}>Change password</Text>
-              </TouchableHighlight>
+              <ChangeEmail email={this.props.navigator.route.email} />
+              <ChangePassword email={this.props.navigator.route.email} />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|iosHelpOutline" style={styles.tabView}>

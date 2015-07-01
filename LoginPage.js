@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Firebase = require('firebase');
 var HomePage = require('./HomePage');
 
 var {
@@ -56,7 +55,7 @@ var styles = StyleSheet.create({
   },
   textInput: {
     margin: 2,
-  }
+  },
 });
 
 var LoginPage = React.createClass({
