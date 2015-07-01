@@ -17,11 +17,10 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-})
+});
 
 var ActivityPage = React.createClass({
   render: function() {
-    debugger;
     return (
       <View style={styles.container}>
       <Text onPress={() => this.props.navigator.pop()}>This is the activity page. Press to go back.</Text>

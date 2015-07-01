@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-})
+});
 
 var PosturePage = React.createClass({
   render: function() {

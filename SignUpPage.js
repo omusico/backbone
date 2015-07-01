@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
   },
   buttonView: {
     marginRight: 25,
-    marginTop: 15,
+    marginTop: 10,
     alignSelf: 'center',
   },
   button: {
@@ -55,7 +55,7 @@ var styles = StyleSheet.create({
   },
   textInput: {
     margin: 2,
-  }
+  },
 });
 
 var SignUpPage = React.createClass({
@@ -63,7 +63,9 @@ var SignUpPage = React.createClass({
     return {
       email: '',
       password: '',
+      passwordAgain: '',
       message: '',
+      messageColor: 'white',
       isLoading: false,
     };
   },
@@ -77,10 +79,31 @@ var SignUpPage = React.createClass({
       password: e.nativeEvent.text
     });
   },
+  updatePasswordAgain: function(e) {
+    this.setState({
+      passwordAgain: e.nativeEvent.text
+    });
+  },
   newUser: function() {
     this.setState({
       isLoading: true
     });
+    if (!this.state.email.length || !this.state.password.length) {
+      this.setState({
+        isLoading: false,
+        messageColor: 'red',
+        message: "Username/password input cannot be empty!"
+      });
+      return;
+    }
+    if (this.state.password !== this.state.passwordAgain) {
+      this.setState({
+        isLoading: false,
+        messageColor: 'red',
+        message: "Passwords do not match, try again!"
+      });
+      return;
+    }
     var context = this;
     var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
     ref.createUser({
@@ -90,15 +113,17 @@ var SignUpPage = React.createClass({
       if (error) {
         context.setState({
           isLoading: false,
-          message: 'Sign-up failed!'
+          messageColor: 'red',
+          message: "Can't use this username, please try another!"
         });
         console.log('Error: ', error);
       } else {
         context.setState({
           isLoading: false,
+          messageColor: 'green',
           message: 'Sign-up succeeded!'
         });
-        context.props.navigator.push({name: 'Home', component: HomePage});
+        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email});
       }
     });
   },
@@ -107,7 +132,7 @@ var SignUpPage = React.createClass({
       ( <ActivityIndicatorIOS
           hidden='true'
           size='small' />) :
-      (<View><Text>{this.state.message}</Text></View>)
+      (<View><Text style={{fontWeight: 'bold', color: this.state.messageColor, margin: 5}}>{this.state.message}</Text></View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>
@@ -118,10 +143,16 @@ var SignUpPage = React.createClass({
           <Text style={styles.signupText}>Password</Text>
           <TextInput style={styles.signup} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
         </View>
+        <View style={styles.textInput}>
+          <Text style={styles.signupText}>Re-enter Password</Text>
+          <TextInput style={styles.signup} secureTextEntry={true} placeholder="********" onChange={this.updatePasswordAgain} />
+        </View>
         <View style={styles.buttonView}>
           <TouchableHighlight style={styles.button} onPress={this.newUser}>
             <Text style={styles.buttonText}>Sign-up</Text>
           </TouchableHighlight>
+        </View>
+        <View>
           {spinner}
         </View>
       </View>

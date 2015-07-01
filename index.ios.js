@@ -25,11 +25,6 @@ var styles = StyleSheet.create({
 });
 
 var backbone = React.createClass({
-  getInitialState: function() {
-    return {
-      name: 'Khoa'
-    };
-  },
   render: function() {
     return (
       <Navigator
