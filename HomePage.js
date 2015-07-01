@@ -99,7 +99,7 @@ var HomePage = React.createClass({
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
           <ScrollView tabLabel="ion|iosPulseStrong" style={styles.tabView}>
             <View style={styles.card}>
-              <Text>Activity</Text>
+              <ActivityPage />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|iosBodyOutline" style={styles.tabView}>

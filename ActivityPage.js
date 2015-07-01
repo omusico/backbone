@@ -23,7 +23,7 @@ var ActivityPage = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-      <Text onPress={() => this.props.navigator.pop()}>This is the activity page. Press to go back.</Text>
+      <Text >This is the activity page.</Text>
       </View>
     )
   },
