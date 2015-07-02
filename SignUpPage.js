@@ -84,6 +84,16 @@ var SignUpPage = React.createClass({
       passwordAgain: e.nativeEvent.text
     });
   },
+  addUserData: function(userData, email, ref) {
+    console.log('USER DATA ', userData, 'REF ', ref);
+    var usersRef = ref.child('users');
+    usersRef.child(userData.uid).set({
+      activityData: [1, 5, 4, 3, 7, 2, 8],
+      inActivityData: [9, 5, 6, 7, 3, 8, 2],
+      postureData: [1, 5, 4, 3, 7, 2, 8],
+      badPostureData: [9, 5, 6, 7, 3, 8, 2],
+    });
+  },
   newUser: function() {
     this.setState({
       isLoading: true
@@ -123,7 +133,9 @@ var SignUpPage = React.createClass({
           messageColor: 'green',
           message: 'Sign-up succeeded!'
         });
-        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email});
+        debugger;
+        context.addUserData(userData, context.state.email, ref);
+        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
       }
     });
   },

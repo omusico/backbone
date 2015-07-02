@@ -1,21 +1,21 @@
 'use strict';
 
 var React = require('react-native');
+var ScrollableTabView = require('react-native-scrollable-tab-view');
+var ActivityChart = require('./ActivityChart');
+var InActivityChart = require('./InActivityChart');
 
 var {
   StyleSheet,
-  Image,
   View,
+  Component,
   Text,
-  Component
+  TouchableHighlight,
 } = React;
 
 var styles = StyleSheet.create({
   container: {
-    padding: 40,
-    marginTop: 65,
-    flex: 1,
-    flexDirection: 'row',
+    marginTop: -15,
   },
 });
 
@@ -23,7 +23,10 @@ var ActivityPage = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-      <Text >This is the activity page.</Text>
+        <ScrollableTabView>
+          <ActivityChart userID={this.props.userID} tabLabel="Activity" />
+          <InActivityChart userID={this.props.userID} tabLabel="InActivity" />
+        </ScrollableTabView>
       </View>
     )
   },

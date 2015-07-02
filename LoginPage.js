@@ -108,7 +108,7 @@ var LoginPage = React.createClass({
           messageColor: 'green',
           message: 'Login successful!'
         });
-        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email});
+        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
       }
     });
   },

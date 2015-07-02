@@ -29,19 +29,17 @@ var styles = StyleSheet.create({
   },
   tabView: {
     width: deviceWidth,
-    padding: 10,
     backgroundColor: 'rgba(0,0,0,0.01)',
   },
   card: {
     borderWidth: 1,
     backgroundColor: '#fff',
     borderColor: 'rgba(0,0,0,0.1)',
-    margin: 5,
-    padding: 15,
     shadowColor: '#ccc',
     shadowOffset: {width: 2, height: 2},
     shadowOpacity: 0.5,
     shadowRadius: 3,
+    height: deviceHeight,
   },
   button: {
     height: 35,
@@ -93,13 +91,12 @@ var HomePage = React.createClass({
       changingEmail: false,
     });
   },
-  render: function() {
-    return (
+  render: function() {    return (
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
           <ScrollView tabLabel="ion|iosPulseStrong" style={styles.tabView}>
             <View style={styles.card}>
-              <ActivityPage />
+              <ActivityPage userID={this.props.navigator.route.userData.uid} />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|iosBodyOutline" style={styles.tabView}>
