@@ -17,7 +17,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-})
+});
 
 var CommunicatePage = React.createClass({
   render: function() {
