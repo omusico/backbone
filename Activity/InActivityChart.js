@@ -49,10 +49,10 @@ var InActivityChart = React.createClass({
             data: snapshotVal.inActivityData,
           },
         ]
-      })
+      });
     }, function(errorObject) {
       console.log('The read failed: ', errorObject.code);
-    })
+    });
   },
   render: function() {
     return (

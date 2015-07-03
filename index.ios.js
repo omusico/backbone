@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var AuthPage = require('./AuthPage');
+var AuthPage = require('./Auth/AuthPage');
 
 var {
   AppRegistry,

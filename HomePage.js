@@ -2,11 +2,11 @@
 
 var React = require('react-native');
 var Icon = require('FAKIconImage');
-var ActivityPage = require('./ActivityPage');
-var PosturePage = require('./PosturePage');
-var CommunicatePage = require('./CommunicatePage');
-var ChangeEmail = require('./ChangeEmail');
-var ChangePassword = require('./ChangePassword');
+var ActivityPage = require('./Activity/ActivityPage');
+var PosturePage = require('./Posture/PosturePage');
+var CommunicatePage = require('./Contact/ContactPage');
+var ChangeEmail = require('./Settings/ChangeEmail');
+var ChangePassword = require('./Settings/ChangePassword');
 var CustomTabBar = require('./CustomTabBar');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 

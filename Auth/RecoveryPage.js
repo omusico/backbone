@@ -1,7 +1,8 @@
 'use strict';
 
 var React = require('react-native');
-var HomePage = require('./HomePage');
+var Firebase = require('firebase');
+var HomePage = require('../HomePage');
 
 var {
   StyleSheet,
@@ -55,10 +56,10 @@ var styles = StyleSheet.create({
   },
   textInput: {
     margin: 2,
-  },
+  }
 });
 
-var LoginPage = React.createClass({
+var RecoveryPage = React.createClass({
   getInitialState: function() {
     return {
       email: '',
@@ -79,38 +80,39 @@ var LoginPage = React.createClass({
     });
   },
   authenticateUser: function() {
-    this.setState({
-      isLoading: true
-    });
-    if (!this.state.email.length || !this.state.password) {
-      this.setState({
-        isLoading: false,
-        messageColor: 'red',
-        message: "Username/password input cannot be empty!"
-      });
-      return;
-    }
-    var context = this;
-    var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
-    ref.authWithPassword({
-      email: this.state.email,
-      password: this.state.password,
-    }, function(error, userData) {
-      if (error) {
-        context.setState({
-          isLoading: false,
-          messageColor: 'red',
-          message: 'Incorrect login, try again!'
-        });
-      } else {
-        context.setState({
-          isLoading: false,
-          messageColor: 'green',
-          message: 'Login successful!'
-        });
-        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
-      }
-    });
+    var userData = {uid: 'simplelogin:16'};
+    this.props.navigator.push({name: 'Home', component: HomePage, email: 'john@example.com', userData: userData});
+    // this.setState({
+    //   isLoading: true
+    // });
+
+    // if (!this.state.email.length) {
+    //   this.setState({
+    //     isLoading: false,
+    //     messageColor: 'red',
+    //     message: "Email input cannot be empty!"
+    //   });
+    //   return;
+    // }
+    // var context = this;
+    // var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/");
+    // ref.resetPassword({
+    //     email: this.state.email
+    //   }, function(error) {
+    //   if (error === null) {
+    //     context.setState({
+    //       isLoading: false,
+    //       messageColor: 'green',
+    //       message: "Password reset email sent, please check your inbox!"
+    //     });
+    //   } else {
+    //     context.setState({
+    //       isLoading: false,
+    //       messageColor: 'red',
+    //       message: "Error sending password reset email, try again!"
+    //     });
+    //   }
+    // });
   },
   render: function() {
     var spinner = this.state.isLoading ?
@@ -122,15 +124,11 @@ var LoginPage = React.createClass({
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.loginText}>Email</Text>
-          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
-        </View>
-        <View style={styles.textInput}>
-          <Text style={styles.loginText}>Password</Text>
-          <TextInput style={styles.login} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
+          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} required/>
         </View>
         <View style={styles.buttonView}>
           <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Recover password</Text>
           </TouchableHighlight>
         </View>
         <View>
@@ -141,4 +139,4 @@ var LoginPage = React.createClass({
   },
 })
 
-module.exports = LoginPage;
+module.exports = RecoveryPage;

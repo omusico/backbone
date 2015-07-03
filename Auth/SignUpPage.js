@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var HomePage = require('./HomePage');
+var HomePage = require('../HomePage');
 
 var {
   StyleSheet,
