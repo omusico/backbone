@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var HomePage = require('./HomePage');
+var HomePage = require('../HomePage');
 
 var {
   StyleSheet,
@@ -20,11 +20,11 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'column'
   },
-  signupText: {
+  loginText: {
     margin: 5,
     fontSize: 24
   },
-  signup: {
+  login: {
     flex: 1,
     alignItems: 'stretch',
     height: 35,
@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
   },
   buttonView: {
     marginRight: 25,
-    marginTop: 15,
+    marginTop: 10,
     alignSelf: 'center',
   },
   button: {
@@ -55,15 +55,16 @@ var styles = StyleSheet.create({
   },
   textInput: {
     margin: 2,
-  }
+  },
 });
 
-var SignUpPage = React.createClass({
+var LoginPage = React.createClass({
   getInitialState: function() {
     return {
       email: '',
       password: '',
       message: '',
+      messageColor: 'white',
       isLoading: false,
     };
   },
@@ -77,51 +78,62 @@ var SignUpPage = React.createClass({
       password: e.nativeEvent.text
     });
   },
-  newUser: function() {
+  authenticateUser: function() {
     this.setState({
       isLoading: true
     });
+    if (!this.state.email.length || !this.state.password) {
+      this.setState({
+        isLoading: false,
+        messageColor: 'red',
+        message: "Username/password input cannot be empty!"
+      });
+      return;
+    }
     var context = this;
     var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
-    ref.createUser({
+    ref.authWithPassword({
       email: this.state.email,
       password: this.state.password,
     }, function(error, userData) {
       if (error) {
         context.setState({
           isLoading: false,
-          message: 'Sign-up failed!'
+          messageColor: 'red',
+          message: 'Incorrect login, try again!'
         });
-        console.log('Error: ', error);
       } else {
         context.setState({
           isLoading: false,
-          message: 'Sign-up succeeded!'
+          messageColor: 'green',
+          message: 'Login successful!'
         });
-        context.props.navigator.push({name: 'Home', component: HomePage});
+        context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
       }
     });
   },
   render: function() {
     var spinner = this.state.isLoading ?
-      ( <ActivityIndicatorIOS
-          hidden='true'
-          size='small' />) :
-      (<View><Text>{this.state.message}</Text></View>)
+    ( <ActivityIndicatorIOS
+        hidden='true'
+        size='small' />) :
+    (<View><Text style={{fontWeight: 'bold', color: this.state.messageColor, margin: 5}}> {this.state.message}</Text></View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>
-          <Text style={styles.signupText}>Email</Text>
-          <TextInput style={styles.signup} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
+          <Text style={styles.loginText}>Email</Text>
+          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
         </View>
         <View style={styles.textInput}>
-          <Text style={styles.signupText}>Password</Text>
-          <TextInput style={styles.signup} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
+          <Text style={styles.loginText}>Password</Text>
+          <TextInput style={styles.login} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
         </View>
         <View style={styles.buttonView}>
-          <TouchableHighlight style={styles.button} onPress={this.newUser}>
-            <Text style={styles.buttonText}>Sign-up</Text>
+          <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>
+            <Text style={styles.buttonText}>Login</Text>
           </TouchableHighlight>
+        </View>
+        <View>
           {spinner}
         </View>
       </View>
@@ -129,4 +141,4 @@ var SignUpPage = React.createClass({
   },
 })
 
-module.exports = SignUpPage;
+module.exports = LoginPage;

@@ -2,7 +2,7 @@
 
 var React = require('react-native');
 var Firebase = require('firebase');
-var HomePage = require('./HomePage');
+var HomePage = require('../HomePage');
 
 var {
   StyleSheet,
@@ -37,7 +37,7 @@ var styles = StyleSheet.create({
   },
   buttonView: {
     marginRight: 25,
-    marginTop: 15,
+    marginTop: 10,
     alignSelf: 'center',
   },
   button: {
@@ -57,14 +57,15 @@ var styles = StyleSheet.create({
   textInput: {
     margin: 2,
   }
-})
+});
 
-var LoginPage = React.createClass({
+var RecoveryPage = React.createClass({
   getInitialState: function() {
     return {
       email: '',
       password: '',
       message: '',
+      messageColor: 'white',
       isLoading: false,
     };
   },
@@ -79,50 +80,58 @@ var LoginPage = React.createClass({
     });
   },
   authenticateUser: function() {
-    this.setState({
-      isLoading: true
-    });
-    var context = this;
-    var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
-    ref.authWithPassword({
-      email: this.state.email,
-      password: this.state.password,
-    }, function(error, userData) {
-      if (error) {
-        context.setState({
-          isLoading: false,
-          message: 'Login failed!'
-        });
-        console.log('Login failed! ', error);
-      } else {
-        context.setState({
-          isLoading: false,
-          message: 'Login succeeded!'
-        });
-        context.props.navigator.push({name: 'Home', component: HomePage});
-      }
-    });
+    var userData = {uid: 'simplelogin:16'};
+    this.props.navigator.push({name: 'Home', component: HomePage, email: 'john@example.com', userData: userData});
+    // this.setState({
+    //   isLoading: true
+    // });
+
+    // if (!this.state.email.length) {
+    //   this.setState({
+    //     isLoading: false,
+    //     messageColor: 'red',
+    //     message: "Email input cannot be empty!"
+    //   });
+    //   return;
+    // }
+    // var context = this;
+    // var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/");
+    // ref.resetPassword({
+    //     email: this.state.email
+    //   }, function(error) {
+    //   if (error === null) {
+    //     context.setState({
+    //       isLoading: false,
+    //       messageColor: 'green',
+    //       message: "Password reset email sent, please check your inbox!"
+    //     });
+    //   } else {
+    //     context.setState({
+    //       isLoading: false,
+    //       messageColor: 'red',
+    //       message: "Error sending password reset email, try again!"
+    //     });
+    //   }
+    // });
   },
   render: function() {
     var spinner = this.state.isLoading ?
     ( <ActivityIndicatorIOS
         hidden='true'
         size='small' />) :
-    (<View><Text> {this.state.message}</Text></View>)
+    (<View><Text style={{fontWeight: 'bold', color: this.state.messageColor, margin: 5}}> {this.state.message}</Text></View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.loginText}>Email</Text>
-          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
-        </View>
-        <View style={styles.textInput}>
-          <Text style={styles.loginText}>Password</Text>
-          <TextInput style={styles.login} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
+          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} required/>
         </View>
         <View style={styles.buttonView}>
           <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>
-            <Text style={styles.buttonText}>Login</Text>
+            <Text style={styles.buttonText}>Recover password</Text>
           </TouchableHighlight>
+        </View>
+        <View>
           {spinner}
         </View>
       </View>
@@ -130,4 +139,4 @@ var LoginPage = React.createClass({
   },
 })
 
-module.exports = LoginPage;
+module.exports = RecoveryPage;

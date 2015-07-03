@@ -4,6 +4,7 @@ var React = require('react-native');
 var Firebase = require('firebase');
 var SignUpPage = require('./SignUpPage');
 var LoginPage = require('./LoginPage');
+var RecoveryPage = require('./RecoveryPage');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 
 var {
@@ -23,7 +24,7 @@ var styles = StyleSheet.create({
     padding: 25,
     color: '#48BBEC'
   },
-})
+});
 
 var AuthPage = React.createClass({
   render: function() {
@@ -33,6 +34,7 @@ var AuthPage = React.createClass({
         <ScrollableTabView>
           <LoginPage navigator={this.props.navigator} tabLabel="Login" />
           <SignUpPage navigator={this.props.navigator} tabLabel="Sign-up" />
+          <RecoveryPage navigator={this.props.navigator} tabLabel="Recover" />
         </ScrollableTabView>
       </View>
     )
