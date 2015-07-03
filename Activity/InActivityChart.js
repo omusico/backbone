@@ -31,7 +31,7 @@ var InActivityChart = React.createClass({
   getInitialState: function() {
     return {
       chartData: null,
-    }
+    };
   },
   componentWillMount: function() {
     var context = this;
