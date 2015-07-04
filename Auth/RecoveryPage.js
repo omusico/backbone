@@ -84,7 +84,7 @@ var RecoveryPage = React.createClass({
     });
   },
   authenticateUser: function() {
-    var userData = {uid: 'simplelogin:16'};
+    var userData = {uid: 'simplelogin:20'};
     this.props.navigator.push({name: 'Home', component: HomePage, email: 'john@example.com', userData: userData});
     // this.setState({
     //   isLoading: true

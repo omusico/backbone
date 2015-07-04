@@ -85,8 +85,8 @@ var SignUpPage = React.createClass({
     console.log('USER DATA ', userData, 'REF ', ref);
     var usersRef = ref.child('users');
     usersRef.child(userData.uid).set({
-      activityData: [1, 5, 4, 3, 7, 2, 8, 4],
-      activityDate: ['7/1', '7/2', '7/3', '7/4'],
+      activityData: [1, 5, 4, 3, 7, 2, 8, 4, 2, 6, 7, 10, 5, 2],
+      activityDate: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
     });
   },
   newUser: function() {
