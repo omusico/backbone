@@ -13,46 +13,50 @@ var {
   ActivityIndicatorIOS
 } = React;
 
+var deviceWidth = (require('Dimensions').get('window').width * .85);
+var deviceWidthButton = (require('Dimensions').get('window').width * .60);
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
     margin: 25,
     marginTop: 30,
-    justifyContent: 'flex-start',
-    flexDirection: 'column'
   },
   loginText: {
     margin: 5,
-    fontSize: 24
+    fontSize: 20,
   },
   login: {
     flex: 1,
-    alignItems: 'stretch',
-    height: 35,
+    alignItems: 'center',
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
-    marginRight: 35,
+    height: 50,
+    width: deviceWidth,
   },
   buttonView: {
-    marginRight: 25,
     marginTop: 10,
     alignSelf: 'center',
   },
   button: {
-    height: 35,
-    width: 200,
-    borderWidth: 1,
+    height: 50,
+    width: deviceWidthButton,
+    borderWidth: 4,
     borderRadius: 8,
     backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    borderColor: '#ccc',
+    alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
     color: 'white',
-    fontSize: 16,
   },
   textInput: {
     margin: 2,
@@ -124,7 +128,7 @@ var RecoveryPage = React.createClass({
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.loginText}>Email</Text>
-          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} required/>
+          <TextInput style={styles.login} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="john@example.com" onChange={this.updateEmail} required/>
         </View>
         <View style={styles.buttonView}>
           <TouchableHighlight style={styles.button} onPress={this.authenticateUser}>

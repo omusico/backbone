@@ -12,46 +12,49 @@ var {
   ActivityIndicatorIOS
 } = React;
 
+var deviceWidth = (require('Dimensions').get('window').width * .85);
+var deviceWidthButton = (require('Dimensions').get('window').width * .40);
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     margin: 25,
-    marginTop: 30,
-    justifyContent: 'flex-start',
-    flexDirection: 'column'
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   loginText: {
     margin: 5,
-    fontSize: 24
+    fontSize: 20,
   },
   login: {
     flex: 1,
-    alignItems: 'stretch',
-    height: 35,
+    height: 50,
+    width: deviceWidth,
+    alignSelf: 'center',
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
-    marginRight: 35,
   },
   buttonView: {
-    marginRight: 25,
-    marginTop: 10,
+    marginTop: 15,
     alignSelf: 'center',
   },
   button: {
-    height: 35,
-    width: 200,
-    borderWidth: 1,
+    height: 50,
+    width: deviceWidthButton,
+    borderWidth: 4,
     borderRadius: 8,
     backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    borderColor: '#ccc',
     justifyContent: 'center',
   },
   buttonText: {
     alignSelf: 'center',
     color: 'white',
-    fontSize: 16,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textInput: {
     margin: 2,
@@ -122,7 +125,7 @@ var LoginPage = React.createClass({
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.loginText}>Email</Text>
-          <TextInput style={styles.login} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
+          <TextInput style={styles.login} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="john@example.com" onChange={this.updateEmail} />
         </View>
         <View style={styles.textInput}>
           <Text style={styles.loginText}>Password</Text>
