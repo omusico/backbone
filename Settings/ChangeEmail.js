@@ -8,48 +8,46 @@ var {
   TouchableHighlight,
 } = React;
 
+var deviceWidth = (require('Dimensions').get('window').width * .85);
+var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   inputBox: {
-    height: 35,
-    width: 250,
+    height: 50,
+    margin: 5,
+    width: deviceWidth,
     padding: 10,
     borderWidth: 1,
     borderRadius: 8,
   },
   loginText: {
     margin: 5,
+    fontSize: 20,
   },
   editButton: {
     flex: 1,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    height: 35,
-    margin: 5,
-    marginTop: 10,
     justifyContent: 'center',
     alignSelf: 'center',
+    backgroundColor: '#48BBEC',
+    borderColor: '#ccc',
+    borderWidth: 4,
+    borderRadius: 8,
+    height: 50,
+    width: deviceWidthButton,
+    margin: 15,
+    padding: 5,
   },
   buttonText: {
     alignSelf: 'center',
     color: 'white',
-    fontSize: 16,
-  },
-  button: {
-    height: 35,
-    width: 200,
-    margin: 10,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    fontSize: 20,
+    fontWeight: 'bold',
   },
 });
 
@@ -122,36 +120,24 @@ var ChangeEmail = React.createClass({
     });
   },
   render: function() {
-    var emailToggle = this.state.changingEmail ? (<View><View style={styles.container}>
-          <View style={styles.textInput}>
-            <Text style={styles.loginText}>Old email</Text>
+    return (
+        <View style={styles.container}>
+          <View>
+            <Text style={styles.loginText}>Current email</Text>
             <TextInput style={styles.inputBox} keyboardType="email-address" placeholder={this.props.email} editable={false} />
             <Text style={styles.loginText}>New email</Text>
             <TextInput style={styles.inputBox} keyboardType="email-address" onChange={this.updateEmail} />
             <Text style={styles.loginText}>Password</Text>
             <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updatePassword} />
           </View>
-        </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-          <TouchableHighlight style={styles.editButton} onPress={this.saveNewEmail}>
-            <Text style={styles.buttonText}>Save</Text>
-          </TouchableHighlight>
-          <TouchableHighlight style={styles.editButton} onPress={this.toggleEmail}>
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableHighlight>
-        </View></View>) : (<TouchableHighlight style={styles.button} onPress={this.toggleEmail}>
-                <Text style={styles.buttonText}>Change email</Text>
-              </TouchableHighlight>);
-    var emailMessage = this.state.attemptEmailChange ? (
-      <View>
-        <Text style={{fontWeight: 'bold', color: this.state.messageColor}}>{this.state.message}</Text>
-      </View>
-      ) :
-    (<View />)
-    return (
-      <View>
-        {emailMessage}
-        {emailToggle}
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <TouchableHighlight style={styles.editButton} onPress={this.saveNewEmail}>
+              <Text style={styles.buttonText}>Save</Text>
+            </TouchableHighlight>
+          </View>
+          <View>
+            <Text style={{fontWeight: 'bold', color: this.state.messageColor}}>{this.state.message}</Text>
+          </View>
       </View>
     )
   }
