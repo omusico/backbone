@@ -49,14 +49,14 @@ var OneDayChart = React.createClass({
   },
   render: function() {
     var hasData = this.state.hasData ? (<RNChart style={styles.chart}
-              chartData={this.state.chartData}
-              xLabels={this.props.xLabels}>
-          </RNChart>) :
+      chartData={this.state.chartData}
+      xLabels={this.props.xLabels}>
+    </RNChart>) :
     (<Text>Please wear your Backbone more to gather more information!</Text>)
     return (
-        <View style={styles.container}>
-          {hasData}
-        </View>
+      <View style={styles.container}>
+        {hasData}
+      </View>
     )
   }
 })
