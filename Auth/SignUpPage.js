@@ -12,46 +12,49 @@ var {
   ActivityIndicatorIOS
 } = React;
 
+var deviceWidth = (require('Dimensions').get('window').width * .85);
+var deviceWidthButton = (require('Dimensions').get('window').width * .40);
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
     margin: 25,
-    marginTop: 30,
-    justifyContent: 'flex-start',
-    flexDirection: 'column'
   },
   signupText: {
     margin: 5,
-    fontSize: 24
+    fontSize: 20,
   },
   signup: {
     flex: 1,
-    alignItems: 'stretch',
-    height: 35,
+    alignSelf: 'center',
+    height: 50,
+    width: deviceWidth,
     borderColor: 'gray',
     borderWidth: 1,
     borderRadius: 8,
     padding: 10,
-    marginRight: 35,
   },
   buttonView: {
-    marginRight: 25,
-    marginTop: 10,
+    marginTop: 15,
     alignSelf: 'center',
   },
   button: {
-    height: 35,
-    width: 200,
-    borderWidth: 1,
-    borderRadius: 8,
     backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    borderColor: '#ccc',
     justifyContent: 'center',
+    height: 50,
+    width: deviceWidthButton,
+    borderWidth: 4,
+    borderRadius: 8,
   },
   buttonText: {
     alignSelf: 'center',
     color: 'white',
-    fontSize: 16,
+    fontWeight: 'bold',
+    fontSize: 20,
   },
   textInput: {
     margin: 2,
@@ -63,7 +66,6 @@ var SignUpPage = React.createClass({
     return {
       email: '',
       password: '',
-      passwordAgain: '',
       message: '',
       messageColor: 'white',
       isLoading: false,
@@ -79,19 +81,12 @@ var SignUpPage = React.createClass({
       password: e.nativeEvent.text
     });
   },
-  updatePasswordAgain: function(e) {
-    this.setState({
-      passwordAgain: e.nativeEvent.text
-    });
-  },
   addUserData: function(userData, email, ref) {
     console.log('USER DATA ', userData, 'REF ', ref);
     var usersRef = ref.child('users');
     usersRef.child(userData.uid).set({
-      activityData: [1, 5, 4, 3, 7, 2, 8],
-      inActivityData: [9, 5, 6, 7, 3, 8, 2],
-      postureData: [1, 5, 4, 3, 7, 2, 8],
-      badPostureData: [9, 5, 6, 7, 3, 8, 2],
+      activityData: [1, 5, 4, 3, 7, 2, 8, 4, 2, 6, 7, 10, 5, 2],
+      activityDate: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
     });
   },
   newUser: function() {
@@ -103,14 +98,6 @@ var SignUpPage = React.createClass({
         isLoading: false,
         messageColor: 'red',
         message: "Username/password input cannot be empty!"
-      });
-      return;
-    }
-    if (this.state.password !== this.state.passwordAgain) {
-      this.setState({
-        isLoading: false,
-        messageColor: 'red',
-        message: "Passwords do not match, try again!"
       });
       return;
     }
@@ -149,15 +136,11 @@ var SignUpPage = React.createClass({
       <View style={styles.container}>
         <View style={styles.textInput}>
           <Text style={styles.signupText}>Email</Text>
-          <TextInput style={styles.signup} keyboardType="email-address" placeholder="john@example.com" onChange={this.updateEmail} />
+          <TextInput style={styles.signup} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} placeholder="john@example.com" onChange={this.updateEmail} />
         </View>
         <View style={styles.textInput}>
           <Text style={styles.signupText}>Password</Text>
           <TextInput style={styles.signup} secureTextEntry={true} placeholder="********" onChange={this.updatePassword} />
-        </View>
-        <View style={styles.textInput}>
-          <Text style={styles.signupText}>Re-enter Password</Text>
-          <TextInput style={styles.signup} secureTextEntry={true} placeholder="********" onChange={this.updatePasswordAgain} />
         </View>
         <View style={styles.buttonView}>
           <TouchableHighlight style={styles.button} onPress={this.newUser}>

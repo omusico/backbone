@@ -4,9 +4,8 @@ var React = require('react-native');
 var Icon = require('FAKIconImage');
 var ActivityPage = require('./Activity/ActivityPage');
 var PosturePage = require('./Posture/PosturePage');
-var CommunicatePage = require('./Contact/ContactPage');
-var ChangeEmail = require('./Settings/ChangeEmail');
-var ChangePassword = require('./Settings/ChangePassword');
+var ContactPage = require('./Contact/ContactPage');
+var SettingsPage = require('./Settings/SettingsPage');
 var CustomTabBar = require('./CustomTabBar');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 
@@ -106,13 +105,12 @@ var HomePage = React.createClass({
           </ScrollView>
           <ScrollView tabLabel="ion|gearB" style={styles.tabView}>
             <View style={styles.card}>
-              <ChangeEmail email={this.props.navigator.route.email} />
-              <ChangePassword email={this.props.navigator.route.email} />
+              <SettingsPage email={this.props.navigator.route.email} />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|iosHelpOutline" style={styles.tabView}>
             <View style={styles.card}>
-              <Text>Talk to us</Text>
+              <ContactPage userID={this.props.navigator.route.userData.uid} />
             </View>
           </ScrollView>
         </ScrollableTabView>

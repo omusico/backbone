@@ -8,48 +8,46 @@ var {
   TouchableHighlight,
 } = React;
 
+var deviceWidth = (require('Dimensions').get('window').width * .85);
+var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 10,
   },
   inputBox: {
-    height: 35,
-    width: 250,
+    height: 50,
+    width: deviceWidth,
+    margin: 5,
     padding: 10,
     borderWidth: 1,
     borderRadius: 8,
   },
   loginText: {
     margin: 5,
+    fontSize: 20,
   },
   editButton: {
     flex: 1,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    height: 35,
-    margin: 5,
-    marginTop: 10,
     justifyContent: 'center',
     alignSelf: 'center',
+    backgroundColor: '#48BBEC',
+    borderColor: '#ccc',
+    borderWidth: 4,
+    borderRadius: 8,
+    height: 50,
+    width: deviceWidthButton,
+    padding: 5,
+    margin: 15,
   },
   buttonText: {
     alignSelf: 'center',
+    fontWeight: 'bold',
     color: 'white',
-    fontSize: 16,
-  },
-  button: {
-    height: 35,
-    width: 200,
-    margin: 10,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    justifyContent: 'center',
-    alignSelf: 'center'
+    fontSize: 20,
   },
 });
 
@@ -122,34 +120,22 @@ var ChangePassword = React.createClass({
     });
   },
   render: function() {
-    var passwordToggle = this.state.changingPassword ? (<View><View style={styles.container}>
-          <View style={styles.textInput}>
-            <Text style={styles.loginText}>Current password</Text>
-            <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updatePassword} />
-            <Text style={styles.loginText}>New password</Text>
-            <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updateNewPassword} />
-          </View>
+    return (
+      <View style={styles.container}>
+        <View>
+          <Text style={styles.loginText}>Current password</Text>
+          <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updatePassword} />
+          <Text style={styles.loginText}>New password</Text>
+          <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updateNewPassword} />
         </View>
         <View style={{flex: 1, flexDirection: 'row'}}>
           <TouchableHighlight style={styles.editButton} onPress={this.saveNewPassword}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableHighlight>
-          <TouchableHighlight style={styles.editButton} onPress={this.togglePassword}>
-            <Text style={styles.buttonText}>Cancel</Text>
-          </TouchableHighlight>
-        </View></View>) : (<TouchableHighlight style={styles.button} onPress={this.togglePassword}>
-                <Text style={styles.buttonText}>Change Password</Text>
-              </TouchableHighlight>);
-    var passwordMessage = this.state.attemptPasswordChange ? (
-      <View>
-        <Text style={{fontWeight: 'bold', color: this.state.messageColor}}>{this.state.message}</Text>
-      </View>
-      ) :
-    (<View />)
-    return (
-      <View>
-        {passwordMessage}
-        {passwordToggle}
+        </View>
+        <View>
+          <Text style={{fontWeight: 'bold', color: this.state.messageColor}}>{this.state.message}</Text>
+        </View>
       </View>
     )
   }
