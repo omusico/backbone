@@ -120,7 +120,6 @@ var SignUpPage = React.createClass({
           messageColor: 'green',
           message: 'Sign-up succeeded!'
         });
-        debugger;
         context.addUserData(userData, context.state.email, ref);
         context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
       }
