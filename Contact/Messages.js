@@ -59,9 +59,9 @@ var Messages = React.createClass({
     };
   },
   renderRow: function(rowData, sectionID, rowID) {
-    var adminType = rowData.admin !== 'You' ? (<View style={{backgroundColor: '#48BBEC', alignItems: 'flex-end'}}><Text style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>{rowData.admin} said: </Text>
-        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 14}}>{rowData.message} </Text></View>) : (<View><Text style={{color: 'black', fontWeight: 'bold', fontSize: 14}}>{rowData.admin} said: </Text>
-        <Text style={{color: 'black', fontWeight: 'bold', fontSize: 14}}>{rowData.message} </Text></View>)
+    var adminType = rowData.admin !== 'You' ? (<View style={{backgroundColor: '#48BBEC'}}><Text style={{color: 'white', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.admin} said: </Text>
+        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.message} </Text></View>) : (<View><Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.admin} said: </Text>
+        <Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, paddingBottom: 5}}>{rowData.message} </Text></View>)
     return (
       <View>
         {{adminType}}

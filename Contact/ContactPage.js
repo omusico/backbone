@@ -53,7 +53,7 @@ var styles = StyleSheet.create({
 var ContactPage = React.createClass({
   getInitialState: function() {
     return {
-      firebaseData: [{message: '', admin: 'No messages...'}],
+      firebaseData: [{message: 'Hello, please talk to us by sending us a message, we\'ll get back to you as soon as we can!', admin: 'Khoa - Support Team'}],
       message: '',
     };
   },
