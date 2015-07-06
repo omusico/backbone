@@ -53,43 +53,35 @@ var styles = StyleSheet.create({
 var ContactPage = React.createClass({
   getInitialState: function() {
     return {
-      firebaseData: [{message: 'hello', admin: 'You'}, {message: 'bye', admin: 'Khoa'}],
+      firebaseData: [{message: 'Hello, please talk to us by sending us a message, we\'ll get back to you as soon as we can!', admin: 'Khoa - Support Team'}],
       message: '',
     };
   },
-  componentDidMount: function() {
+  componentWillMount: function() {
     var context = this;
-    var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
-    var usersRef = ref.child('messages');
-    usersRef.child(this.props.userID).on('value', function(snapshot) {
-      var arr = context.state.firebaseData;
-      arr.push(snapshot.val());
-      console.log('arggg', arr);
+    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child(this.props.userID);
+    userRef.child('messages').on('value', function(snapshot) {
+      console.log('Snapshot value: ', snapshot.val())
       if (snapshot.val()) {
         context.setState({
-          firebaseData: arr,
+          firebaseData: snapshot.val(),
         }, function() {
-          console.log(context.state.firebaseData);
-        });
-      } else {
-        console.log('THERE WAS NO DATA!!!');
+          console.log('FirebaseData value: ', context.state.firebaseData);
+        })
       }
     });
   },
   sendMessage: function() {
-    console.log('sending message');
-    var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
-    var usersRef = ref.child('messages');
-    usersRef.child(this.props.userID).set({
-      message: this.state.message,
-      admin: 'You',
-    });
+    console.log('Sending this message... ', this.state.message);
+    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child(this.props.userID);
+    var newMsgRef = userRef.child('messages').push();
+    newMsgRef.set({message: this.state.message, admin: 'You'});
   },
   handleMessageUpdate: function(e) {
     this.setState({
       message: e.nativeEvent.text
     }, function() {
-      console.log('MESSAGE ', this.state.message);
+      console.log('This is your message: ', this.state.message);
     });
   },
   render: function() {
