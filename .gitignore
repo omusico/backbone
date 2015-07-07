@@ -24,5 +24,9 @@ project.xcworkspace
 
 # node.js
 #
-node_modules/
+node_modules/firebase
+node_modules/react-native
+node_modules/react-native-icons
+node_modules/react-native-keyboardevents
+node_modules/react-native-scrollable-tab-view
 npm-debug.log
