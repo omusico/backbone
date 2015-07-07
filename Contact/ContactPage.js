@@ -59,7 +59,7 @@ var ContactPage = React.createClass({
   },
   componentWillMount: function() {
     var context = this;
-    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child(this.props.userID);
+    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child('users').child(this.props.userID);
     userRef.child('messages').on('value', function(snapshot) {
       console.log('Snapshot value: ', snapshot.val())
       if (snapshot.val()) {
@@ -73,7 +73,7 @@ var ContactPage = React.createClass({
   },
   sendMessage: function() {
     console.log('Sending this message... ', this.state.message);
-    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child(this.props.userID);
+    var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child('users').child(this.props.userID);
     var newMsgRef = userRef.child('messages').push();
     newMsgRef.set({message: this.state.message, admin: 'You'});
   },

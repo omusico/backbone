@@ -60,8 +60,8 @@ var Messages = React.createClass({
   },
   renderRow: function(rowData, sectionID, rowID) {
     var adminType = rowData.admin !== 'You' ? (<View style={{backgroundColor: '#48BBEC'}}><Text style={{color: 'white', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.admin} said: </Text>
-        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.message} </Text></View>) : (<View><Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.admin} said: </Text>
-        <Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, paddingBottom: 5}}>{rowData.message} </Text></View>)
+        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 14, paddingLeft: 5, paddingBottom: 5, paddingRight: 5}}>{rowData.message} </Text></View>) : (<View><Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, padding: 5}}>{rowData.admin} said: </Text>
+        <Text style={{color: 'black', fontWeight: 'bold', fontSize: 14, paddingLeft: 5, paddingBottom: 5, paddingRight: 5}}>{rowData.message} </Text></View>)
     return (
       <View>
         {{adminType}}
@@ -74,7 +74,7 @@ var Messages = React.createClass({
     this.setState({
       dataSource: ds.cloneWithRows(nextProps.firebaseData)
     }, function() {
-      console.log('allll done');
+      console.log('All done rendering data source for ListView');
     })
   },
   render: function() {
