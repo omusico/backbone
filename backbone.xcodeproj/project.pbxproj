@@ -32,6 +32,7 @@
 		F11544071B4618E000BE3E57 /* ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11543FC1B4618E000BE3E57 /* ionicons.ttf */; };
 		F11544081B4618E000BE3E57 /* zocial-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F11543FD1B4618E000BE3E57 /* zocial-regular-webfont.ttf */; };
 		F1570D261B44A6180059DCCD /* libRNChart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1570D251B44A60D0059DCCD /* libRNChart.a */; };
+		F17196541B4F6FD9002120CF /* libRNKeyboardEvents.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F17196531B4F6FB6002120CF /* libRNKeyboardEvents.a */; };
 		F18932EF1B4254A800A1141F /* FAKIcon.m in Resources */ = {isa = PBXBuildFile; fileRef = F18932EE1B4254A800A1141F /* FAKIcon.m */; };
 		F18932FC1B4254C200A1141F /* FAKIcon.h in Resources */ = {isa = PBXBuildFile; fileRef = F18932FB1B4254C200A1141F /* FAKIcon.h */; };
 		F1C80E451B3F68A900E1305A /* libReactNativeIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F1C80E441B3F689D00E1305A /* libReactNativeIcons.a */; };
@@ -127,6 +128,13 @@
 			remoteGlobalIDString = 41FDC4F01AF5D0CF00DBBA9C;
 			remoteInfo = RNChart;
 		};
+		F17196521B4F6FB6002120CF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F17196421B4F6FB6002120CF /* RNKeyboardEvents.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F12AFB9B1ADAF8F800E0535D;
+			remoteInfo = RNKeyboardEvents;
+		};
 		F1C80E431B3F689D00E1305A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F1C80E351B3F689D00E1305A /* ReactNativeIcons.xcodeproj */;
@@ -174,6 +182,7 @@
 		F11543FC1B4618E000BE3E57 /* ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = ionicons.ttf; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/ionicons.ttf"; sourceTree = "<group>"; };
 		F11543FD1B4618E000BE3E57 /* zocial-regular-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "zocial-regular-webfont.ttf"; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/zocial-regular-webfont.ttf"; sourceTree = "<group>"; };
 		F1570D151B44A60D0059DCCD /* RNChart.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNChart.xcodeproj; path = "node_modules/react-native-chart/RNChart.xcodeproj"; sourceTree = "<group>"; };
+		F17196421B4F6FB6002120CF /* RNKeyboardEvents.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNKeyboardEvents.xcodeproj; path = "node_modules/react-native-keyboardevents/RNKeyboardEvents.xcodeproj"; sourceTree = "<group>"; };
 		F18932EE1B4254A800A1141F /* FAKIcon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKIcon.m; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIcon.m"; sourceTree = "<group>"; };
 		F18932FB1B4254C200A1141F /* FAKIcon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = FAKIcon.h; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIcon.h"; sourceTree = "<group>"; };
 		F1C80E351B3F689D00E1305A /* ReactNativeIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeIcons.xcodeproj; path = "node_modules/react-native-icons/ios/ReactNativeIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -193,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F17196541B4F6FD9002120CF /* libRNKeyboardEvents.a in Frameworks */,
 				F1570D261B44A6180059DCCD /* libRNChart.a in Frameworks */,
 				F1C80E451B3F68A900E1305A /* libReactNativeIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -344,6 +354,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F17196421B4F6FB6002120CF /* RNKeyboardEvents.xcodeproj */,
 				F11543EF1B4618E000BE3E57 /* FAKFontAwesome.h */,
 				F11543F01B4618E000BE3E57 /* FAKFontAwesome.m */,
 				F11543F11B4618E000BE3E57 /* FAKFoundationIcons.h */,
@@ -385,6 +396,14 @@
 			isa = PBXGroup;
 			children = (
 				F1570D251B44A60D0059DCCD /* libRNChart.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F17196431B4F6FB6002120CF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F17196531B4F6FB6002120CF /* libRNKeyboardEvents.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -513,6 +532,10 @@
 					ProductGroup = F1570D161B44A60D0059DCCD /* Products */;
 					ProjectRef = F1570D151B44A60D0059DCCD /* RNChart.xcodeproj */;
 				},
+				{
+					ProductGroup = F17196431B4F6FB6002120CF /* Products */;
+					ProjectRef = F17196421B4F6FB6002120CF /* RNKeyboardEvents.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -598,6 +621,13 @@
 			fileType = archive.ar;
 			path = libRNChart.a;
 			remoteRef = F1570D241B44A60D0059DCCD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F17196531B4F6FB6002120CF /* libRNKeyboardEvents.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNKeyboardEvents.a;
+			remoteRef = F17196521B4F6FB6002120CF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F1C80E441B3F689D00E1305A /* libReactNativeIcons.a */ = {
@@ -732,6 +762,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -752,6 +783,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/node_modules/react-native/React/**",
+					"$(SRCROOT)/../../React/**",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/iOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
