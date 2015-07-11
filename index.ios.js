@@ -17,8 +17,12 @@ var styles = StyleSheet.create({
   },
 });
 
+var RNMetaWear = require('NativeModules').RNMetaWear;
+
 var backbone = React.createClass({
   render: function() {
+    console.log("MyObjcClass!!!", RNMetaWear);
+    RNMetaWear.connectToMetaWear();
     return (
       <Navigator
         initialRoute={{name: 'AuthPage', component: AuthPage}}
