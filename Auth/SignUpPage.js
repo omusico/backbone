@@ -12,8 +12,8 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .85);
-var deviceWidthButton = (require('Dimensions').get('window').width * .40);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceWidthButton = (require('Dimensions').get('window').width * 0.40);
 
 var styles = StyleSheet.create({
   container: {
@@ -82,11 +82,13 @@ var SignUpPage = React.createClass({
     });
   },
   addUserData: function(userData, email, ref) {
-    console.log('USER DATA ', userData, 'REF ', ref);
+    var date = new Date();
+    var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
+    var newActivity = {};
+    newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0};
     var usersRef = ref.child('users');
     usersRef.child(userData.uid).set({
-      activityData: [1, 5, 4, 3, 7, 2, 8, 4, 2, 6, 7, 10, 5, 2],
-      activityDate: ['7/1', '7/2', '7/3', '7/4', '7/5', '7/6', '7/7'],
+      activity: newActivity
     });
   },
   newUser: function() {

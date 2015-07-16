@@ -61,13 +61,12 @@ var ContactPage = React.createClass({
     var context = this;
     var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child('users').child(this.props.userID);
     userRef.child('messages').on('value', function(snapshot) {
-      console.log('Snapshot value: ', snapshot.val())
       if (snapshot.val()) {
         context.setState({
           firebaseData: snapshot.val(),
         }, function() {
           console.log('FirebaseData value: ', context.state.firebaseData);
-        })
+        });
       }
     });
   },
@@ -88,7 +87,7 @@ var ContactPage = React.createClass({
     return (
       <View style={styles.container}>
         <View style={styles.message}>
-          <TextInput style={styles.messageInput} onChange={this.handleMessageUpdate} multiline={true} />
+          <TextInput style={styles.messageInput} clearTextOnFocus={true} onChange={this.handleMessageUpdate} multiline={true} />
             <TouchableHighlight style={styles.messageButton} onPress={this.sendMessage}>
               <Text style={styles.messageText}>Send</Text>
             </TouchableHighlight>

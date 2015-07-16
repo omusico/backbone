@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var AuthPage = require('./Auth/AuthPage');
+var RNMetaWear = require('NativeModules').RNMetaWear;
 
 var {
   AppRegistry,
@@ -17,11 +18,9 @@ var styles = StyleSheet.create({
   },
 });
 
-var RNMetaWear = require('NativeModules').RNMetaWear;
 
 var backbone = React.createClass({
   render: function() {
-    console.log("MyObjcClass!!!", RNMetaWear);
     RNMetaWear.connectToMetaWear();
     return (
       <Navigator

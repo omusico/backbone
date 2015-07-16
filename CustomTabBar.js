@@ -41,7 +41,6 @@ var CustomTabBar = React.createClass({
 
   renderTabOption(name, page) {
     var isTabActive = this.props.activeTab === page;
-    console.log(name);
 
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
