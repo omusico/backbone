@@ -54,7 +54,6 @@ var Messages = React.createClass({
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     return {
       firebaseData: null,
-      message: '',
       dataSource: ds.cloneWithRows(this.props.firebaseData),
     };
   },
@@ -69,12 +68,11 @@ var Messages = React.createClass({
     )
   },
   componentWillReceiveProps: function(nextProps) {
-    console.log('NEXT PROPS', nextProps);
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.setState({
       dataSource: ds.cloneWithRows(nextProps.firebaseData)
     }, function() {
-      console.log('All done rendering data source for ListView');
+      firebaseData: nextProps.firebaseData;
     })
   },
   render: function() {
@@ -82,7 +80,7 @@ var Messages = React.createClass({
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)} />
+          renderRow={this.renderRow} />
       </View>
     )
   },

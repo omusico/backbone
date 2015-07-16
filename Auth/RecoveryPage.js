@@ -3,6 +3,7 @@
 var React = require('react-native');
 var Firebase = require('firebase');
 var HomePage = require('../HomePage');
+var RNMetaWear = require('NativeModules').RNMetaWear;
 
 var {
   StyleSheet,
@@ -13,8 +14,8 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .85);
-var deviceWidthButton = (require('Dimensions').get('window').width * .60);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceWidthButton = (require('Dimensions').get('window').width * 0.60);
 
 var styles = StyleSheet.create({
   container: {
@@ -84,7 +85,7 @@ var RecoveryPage = React.createClass({
     });
   },
   authenticateUser: function() {
-    var userData = {uid: 'simplelogin:30'};
+    var userData = {uid: 'simplelogin:42'};
     this.props.navigator.push({name: 'Home', component: HomePage, email: 'john@example.com', userData: userData});
     // this.setState({
     //   isLoading: true

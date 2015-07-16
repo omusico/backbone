@@ -9,8 +9,8 @@ var {
   StyleSheet
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .95);
-var deviceHeight = (require('Dimensions').get('window').width * .70);
+var deviceWidth = (require('Dimensions').get('window').width * 0.95);
+var deviceHeight = (require('Dimensions').get('window').width * 0.70);
 
 var styles = StyleSheet.create({
   container: {
@@ -36,6 +36,7 @@ var OneWeekChart = React.createClass({
             data: this.props.chartData,
           },
         ],
+        stepCount: this.props.stepCount,
     };
   },
   componentWillMount: function() {
@@ -46,10 +47,34 @@ var OneWeekChart = React.createClass({
       return;
     }
   },
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.xLabels.length === 7 && nextProps.shouldUpdate) {
+      this.setState({
+        chartData: [
+          {
+            name:'BarChart',
+            type:'bar',
+            color1:'#48BBEC',
+            color2: '#FFA500',
+            widthPercent:0.6,
+            data: nextProps.chartData,
+          },
+        ],
+        stepCount: nextProps.stepCount,
+        hasData: false,
+      }, function() {
+        console.log('We are going to update...');
+        this.setState({
+          hasData: true,
+        });
+      });
+    }
+  },
   render: function() {
     var hasData = this.state.hasData ? (<RNChart style={styles.chart}
       chartData={this.state.chartData}
-      xLabels={this.props.xLabels}>
+      xLabels={this.props.xLabels}
+      verticalGridStep="1">
     </RNChart>) :
     (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     return (

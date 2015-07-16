@@ -8,6 +8,8 @@ var ContactPage = require('./Contact/ContactPage');
 var SettingsPage = require('./Settings/SettingsPage');
 var CustomTabBar = require('./CustomTabBar');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
+var RNMetaWear = require('NativeModules').RNMetaWear;
+var Firebase = require('firebase');
 
 var deviceWidth = require('Dimensions').get('window').width;
 var deviceHeight = require('Dimensions').get('window').height;
@@ -24,7 +26,6 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 30,
   },
   tabView: {
     width: deviceWidth,
@@ -67,6 +68,26 @@ var styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  activeBar: {
+    backgroundColor: '#00FF00',
+    height: 25,
+    marginTop: 25,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inactiveBar: {
+    backgroundColor: '#FF0000',
+    height: 25,
+    marginTop: 25,
+    marginBottom: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activityText: {
+    color: 'white',
+    fontWeight: 'bold',
+  }
 });
 
 var HomePage = React.createClass({
@@ -74,10 +95,29 @@ var HomePage = React.createClass({
     return {
       changingEmail: false,
       newEmail: '',
+      activityState: "NO",
+      stateChanged: null,
     };
   },
-  saveEmail: function() {
-
+  componentWillMount: function() {
+    RNMetaWear.syncToMetaWear(this.props.navigator.route.userData.uid);
+    var context = this;
+    var date = new Date();
+    var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
+    var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/users/");
+    var userActiveRef = ref.child(this.props.navigator.route.userData.uid).child('activity').child(currentDate).child('userActive');
+    userActiveRef.on('value', function(snapshot) {
+      var activityState = snapshot.val();
+      context.setState({
+        activityState: activityState,
+        stateChanged: false,
+      }, function() {
+        context.setState({
+          stateChanged: true,
+        });
+        console.log('HEY THE COMPONENT MOUNTED, heres the activityState', context.state.activityState);
+      });
+    });
   },
   changeEmail: function() {
     if (!this.state.changingEmail) {
@@ -90,8 +130,15 @@ var HomePage = React.createClass({
       changingEmail: false,
     });
   },
-  render: function() {    return (
+  render: function() {
+    var activityText = (this.state.activityState === "YES") ? (<View style={styles.activeBar}>
+          <Text style={styles.activityText}>You are active!</Text>
+        </View>) : (<View style={styles.inactiveBar}>
+          <Text style={styles.activityText}>You are inactive!</Text>
+        </View>)
+    return (
       <View style={styles.container}>
+        {activityText}
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
           <ScrollView tabLabel="ion|iosPulseStrong" style={styles.tabView}>
             <View style={styles.card}>

@@ -38,7 +38,6 @@ var AuthPage = React.createClass({
     this.setState({keyboardShow: true});
   },
   resetKeyboardSpace: function() {
-    console.log('RESET HEIGHT');
     this.setState({keyboardShow: false});
   },
   componentDidMount: function() {
