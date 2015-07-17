@@ -75,6 +75,7 @@ var ActivityPage = React.createClass({
 
       for (var key in snapshot.val().activity) {
         if (counter > 7) {
+          counter = 0;
           break;
         }
         chartDataArr.push(snapshot.val().activity[key].dayActive);
@@ -92,6 +93,7 @@ var ActivityPage = React.createClass({
         inactiveData: inactiveData,
         shouldUpdate: shouldUpdate,
       }, function() {
+        counter = 0;
         context.setState({
           isLoading: false,
         });

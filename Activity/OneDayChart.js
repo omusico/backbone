@@ -74,7 +74,7 @@ var OneDayChart = React.createClass({
   },
   activityTime: function(rawTime) {
     if (rawTime > 60) {
-      if (rawTime > 360) {
+      if (rawTime > 3600) {
         return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
       } else {
         return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';

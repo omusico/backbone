@@ -21,7 +21,7 @@ var styles = StyleSheet.create({
 
 var backbone = React.createClass({
   render: function() {
-    RNMetaWear.connectToMetaWear();
+    RNMetaWear.setConstants();
     return (
       <Navigator
         initialRoute={{name: 'AuthPage', component: AuthPage}}

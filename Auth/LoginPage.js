@@ -81,6 +81,25 @@ var LoginPage = React.createClass({
       password: e.nativeEvent.text
     });
   },
+  syncUserData: function(userData, email, ref) {
+    var date = new Date();
+    var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
+    var newActivity = {};
+    var newPosture = {};
+    newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
+    newPosture[currentDate] = {slouches: 0};
+    var usersRef = ref.child('users').child(userData.uid);
+    usersRef.child('currentDate').once('value', function(data) {
+      if (data.val() !== currentDate) {
+        usersRef.set({
+          currentDate: currentDate,
+          notificationInterval: 1800,
+          activity: newActivity,
+          posture: newPosture,
+        });
+      }
+    });
+  },
   authenticateUser: function() {
     this.setState({
       isLoading: true
@@ -111,6 +130,7 @@ var LoginPage = React.createClass({
           messageColor: 'green',
           message: 'Login successful!'
         });
+        context.syncUserData(userData, context.state.email, ref);
         context.props.navigator.push({name: 'Home', component: HomePage, email: context.state.email, userData: userData});
       }
     });

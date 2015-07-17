@@ -85,10 +85,15 @@ var SignUpPage = React.createClass({
     var date = new Date();
     var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
     var newActivity = {};
-    newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0};
+    var newPosture = {};
+    newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
+    newPosture[currentDate] = {slouches: 0};
     var usersRef = ref.child('users');
     usersRef.child(userData.uid).set({
-      activity: newActivity
+      currentDate: currentDate,
+      notificationInterval: 1800,
+      activity: newActivity,
+      posture: newPosture,
     });
   },
   newUser: function() {

@@ -92,6 +92,7 @@ var styles = StyleSheet.create({
 
 var HomePage = React.createClass({
   getInitialState: function() {
+    RNMetaWear.connectToMetaWear(this.props.navigator.route.userData.uid);
     return {
       changingEmail: false,
       newEmail: '',
@@ -100,7 +101,6 @@ var HomePage = React.createClass({
     };
   },
   componentWillMount: function() {
-    RNMetaWear.syncToMetaWear(this.props.navigator.route.userData.uid);
     var context = this;
     var date = new Date();
     var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
@@ -115,7 +115,6 @@ var HomePage = React.createClass({
         context.setState({
           stateChanged: true,
         });
-        console.log('HEY THE COMPONENT MOUNTED, heres the activityState', context.state.activityState);
       });
     });
   },
