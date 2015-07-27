@@ -21,6 +21,10 @@ var styles = StyleSheet.create({
     width: deviceWidth,
     height: deviceHeight,
   },
+  activityText: {
+    margin: 10,
+    fontSize: 14,
+  }
 });
 
 var OneDayChart = React.createClass({
@@ -74,7 +78,7 @@ var OneDayChart = React.createClass({
   },
   activityTime: function(rawTime) {
     if (rawTime > 60) {
-      if (rawTime > 360) {
+      if (rawTime > 3600) {
         return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
       } else {
         return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
@@ -91,15 +95,16 @@ var OneDayChart = React.createClass({
       showAxis={false}>
     </RNChart>) :
     (<Text>Please wear your Backbone more to gather more information!</Text>)
+    var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) : (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>
         <View>
           {hasData}
         </View>
         <View>
-          <Text>Steps taken: {this.state.stepCount}</Text>
-          <Text>Time active: {this.activityTime(this.state.activeData)}</Text>
-          <Text>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
+          <Text style={styles.activityText}>Steps taken: {isConnected}</Text>
+          <Text style={styles.activityText}>Time active: {this.activityTime(this.state.activeData)}</Text>
+          <Text style={styles.activityText}>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
         </View>
       </View>
     )

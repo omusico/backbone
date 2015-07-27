@@ -100,7 +100,7 @@ var HomePage = React.createClass({
     };
   },
   componentWillMount: function() {
-    RNMetaWear.syncToMetaWear(this.props.navigator.route.userData.uid);
+    RNMetaWear.connectToMetaWear(this.props.navigator.route.userData.uid);
     var context = this;
     var date = new Date();
     var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
@@ -115,7 +115,6 @@ var HomePage = React.createClass({
         context.setState({
           stateChanged: true,
         });
-        console.log('HEY THE COMPONENT MOUNTED, heres the activityState', context.state.activityState);
       });
     });
   },
@@ -147,12 +146,12 @@ var HomePage = React.createClass({
           </ScrollView>
           <ScrollView tabLabel="ion|iosBodyOutline" style={styles.tabView}>
             <View style={styles.card}>
-              <Text>Posture</Text>
+              <PosturePage />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|gearB" style={styles.tabView}>
             <View style={styles.card}>
-              <SettingsPage email={this.props.navigator.route.email} />
+              <SettingsPage userID={this.props.navigator.route.userData.uid} email={this.props.navigator.route.email} />
             </View>
           </ScrollView>
           <ScrollView tabLabel="ion|iosHelpOutline" style={styles.tabView}>

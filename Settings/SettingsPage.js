@@ -4,6 +4,7 @@ var React = require('react-native');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 var ChangeEmail = require('./ChangeEmail');
 var ChangePassword = require('./ChangePassword');
+var Settings = require('./Settings');
 
 var {
   StyleSheet,
@@ -24,8 +25,9 @@ var SettingsPage = React.createClass({
     return (
       <View style={styles.container}>
         <ScrollableTabView>
-          <ChangeEmail email={this.props.email} tabLabel="Change Email" />
-          <ChangePassword email={this.props.email} tabLabel="Change Password" />
+          <Settings email={this.props.email} tabLabel="Settings" />
+          <ChangeEmail email={this.props.email} tabLabel="Email" />
+          <ChangePassword email={this.props.email} tabLabel="Password" />
         </ScrollableTabView>
       </View>
     )

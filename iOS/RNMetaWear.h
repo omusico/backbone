@@ -6,7 +6,7 @@
 //- (IBAction)buttonPress:(id)sender;
 //- (void)checkForIdle;
 - (void)checkForActivity;
-- (void)updateDayData;
+- (void)checkForIdle;
 - (void)startLocalNotification;
 - (void)stopLocalNotification;
 @end

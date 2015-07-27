@@ -41,13 +41,13 @@
 		F1C80E8B1B3F8A4600E1305A /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		F1C80E971B3F8A4900E1305A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		F1E7EB221B50C257003014CB /* RNMetaWear.m in Sources */ = {isa = PBXBuildFile; fileRef = F1E7EB211B50C257003014CB /* RNMetaWear.m */; };
-		F1E7EB261B50C261003014CB /* MetaWear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB241B50C261003014CB /* MetaWear.framework */; };
 		F1E7EB281B50D5EF003014CB /* Firebase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB271B50D5EF003014CB /* Firebase.framework */; };
 		F1E7EB2A1B50D6C6003014CB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB291B50D6C6003014CB /* SystemConfiguration.framework */; };
 		F1E7EB2C1B50D6CF003014CB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB2B1B50D6CF003014CB /* Security.framework */; };
 		F1E7EB2E1B50D6D4003014CB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB2D1B50D6D4003014CB /* CFNetwork.framework */; };
 		F1E7EB301B50D6DD003014CB /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB2F1B50D6DD003014CB /* libc++.dylib */; };
 		F1E7EB321B50D6E4003014CB /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F1E7EB311B50D6E4003014CB /* libicucore.dylib */; };
+		F1FF248C1B5869EF00E1302C /* MetaWear.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1FF248B1B5869EF00E1302C /* MetaWear.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -197,13 +197,13 @@
 		F1C80E691B3F73AD00E1305A /* FAKIonIcons.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = FAKIonIcons.m; path = "node_modules/react-native-icons/ios/ReactNativeIcons/Libraries/FontAwesomeKit/FAKIonIcons.m"; sourceTree = "<group>"; };
 		F1E7EB201B50C257003014CB /* RNMetaWear.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNMetaWear.h; path = iOS/RNMetaWear.h; sourceTree = "<group>"; };
 		F1E7EB211B50C257003014CB /* RNMetaWear.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNMetaWear.m; path = iOS/RNMetaWear.m; sourceTree = "<group>"; };
-		F1E7EB241B50C261003014CB /* MetaWear.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetaWear.framework; path = iOS/Frameworks/MetaWear.framework; sourceTree = "<group>"; };
 		F1E7EB271B50D5EF003014CB /* Firebase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Firebase.framework; path = iOS/Frameworks/Firebase.framework; sourceTree = "<group>"; };
 		F1E7EB291B50D6C6003014CB /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F1E7EB2B1B50D6CF003014CB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		F1E7EB2D1B50D6D4003014CB /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		F1E7EB2F1B50D6DD003014CB /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		F1E7EB311B50D6E4003014CB /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		F1FF248B1B5869EF00E1302C /* MetaWear.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetaWear.framework; path = iOS/Frameworks/MetaWear.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -224,7 +224,6 @@
 				F1E7EB2C1B50D6CF003014CB /* Security.framework in Frameworks */,
 				F1E7EB2A1B50D6C6003014CB /* SystemConfiguration.framework in Frameworks */,
 				F17196541B4F6FD9002120CF /* libRNKeyboardEvents.a in Frameworks */,
-				F1E7EB261B50C261003014CB /* MetaWear.framework in Frameworks */,
 				F1570D261B44A6180059DCCD /* libRNChart.a in Frameworks */,
 				F1C80E451B3F68A900E1305A /* libReactNativeIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
@@ -235,6 +234,7 @@
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				F1E7EB281B50D5EF003014CB /* Firebase.framework in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
+				F1FF248C1B5869EF00E1302C /* MetaWear.framework in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
@@ -377,13 +377,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F1FF248B1B5869EF00E1302C /* MetaWear.framework */,
 				F1E7EB311B50D6E4003014CB /* libicucore.dylib */,
 				F1E7EB2F1B50D6DD003014CB /* libc++.dylib */,
 				F1E7EB2D1B50D6D4003014CB /* CFNetwork.framework */,
 				F1E7EB2B1B50D6CF003014CB /* Security.framework */,
 				F1E7EB291B50D6C6003014CB /* SystemConfiguration.framework */,
 				F1E7EB271B50D5EF003014CB /* Firebase.framework */,
-				F1E7EB241B50C261003014CB /* MetaWear.framework */,
 				F1E7EB201B50C257003014CB /* RNMetaWear.h */,
 				F1E7EB211B50C257003014CB /* RNMetaWear.m */,
 				F17196421B4F6FB6002120CF /* RNKeyboardEvents.xcodeproj */,
@@ -799,6 +799,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/iOS/Frameworks",
+					"/Users/khoa_phan/bytefrost/Metawear-iOSAPI",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -825,6 +826,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/iOS/Frameworks",
+					"/Users/khoa_phan/bytefrost/Metawear-iOSAPI",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

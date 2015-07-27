@@ -12,8 +12,8 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .85);
-var deviceWidthButton = (require('Dimensions').get('window').width * .40);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceWidthButton = (require('Dimensions').get('window').width * 0.40);
 
 var styles = StyleSheet.create({
   container: {
