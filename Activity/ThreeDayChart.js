@@ -21,6 +21,20 @@ var styles = StyleSheet.create({
     width: deviceWidth,
     height: deviceHeight,
   },
+  activityText: {
+    margin: 10,
+    fontSize: 14,
+  },
+  dayActiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#48BBEC',
+  },
+  dayInactiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#FFA500'
+  }
 });
 
 var ThreeDayChart = React.createClass({
@@ -49,7 +63,7 @@ var ThreeDayChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.xLabels.length === 3 && nextProps.shouldUpdate) {
+    if (nextProps.xLabels.length === 3) {
       this.setState({
         chartData: [
           {
@@ -71,6 +85,35 @@ var ThreeDayChart = React.createClass({
       });
     }
   },
+  shouldComponentUpdate: function(nextProps) {
+    console.log('should we update?', this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1]);
+    return this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1];
+  },
+  addDayData: function(active) {
+    var counter = 0;
+    for (var i = active; i < this.props.chartData.length; i += 2) {
+      counter += this.props.chartData[i];
+    }
+    return counter;
+  },
+  addSteps: function() {
+    var counter = 0;
+    for (var i = 0; i < this.props.stepCount.length; i++) {
+      counter += this.props.stepCount[i];
+    }
+    return counter;
+  },
+  activityTime: function(rawTime) {
+    if (rawTime > 60) {
+      if (rawTime > 3600) {
+        return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+      } else {
+        return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+      }
+    } else {
+      return rawTime + ' seconds';
+    }
+  },
   render: function() {
     var hasData = this.state.hasData ? (<RNChart style={styles.chart}
       chartData={this.state.chartData}
@@ -80,7 +123,14 @@ var ThreeDayChart = React.createClass({
     (<Text>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
-        {hasData}
+        <View>
+          {hasData}
+        </View>
+        <View>
+          <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
+          <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
+          <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
+        </View>
       </View>
     )
   }

@@ -39,7 +39,6 @@ var ActivityPage = React.createClass({
       isLoading: true,
       activeData: 0,
       inactiveData: 0,
-      shouldUpdate: false,
     };
   },
   setChartDays: function(days) {
@@ -49,6 +48,8 @@ var ActivityPage = React.createClass({
     } else {
       chartData = [1, 1];
     }
+    chartData.pop();
+    chartData.pop();
     return chartData;
   },
   setXLabels: function(days) {
@@ -58,12 +59,14 @@ var ActivityPage = React.createClass({
     } else {
       xLabels = ['Today'];
     }
+    xLabels.pop();
     return xLabels;
   },
   setStepCount: function(days) {
     var stepCount;
     if (this.state.stepCount) {
       stepCount = this.state.stepCount.slice(-(days));
+      stepCount.pop();
       return stepCount;
     }
     return null;
@@ -78,7 +81,6 @@ var ActivityPage = React.createClass({
       var date = new Date();
       var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
       if (snapshot.val() === null || !snapshot.val().activity) {
-        var ref = new Firebase('https://sweltering-fire-6261.firebaseio.com/');
         var newActivity = {};
         newActivity[currentDate] = {dayActive: 1, dayInactive: 1};
         var usersRef = ref.child('users');
@@ -88,11 +90,6 @@ var ActivityPage = React.createClass({
       } else {
         var activeData = snapshot.val().activity[currentDate].dayActive;
         var inactiveData = snapshot.val().activity[currentDate].dayInactive;
-        var shouldUpdate = false;
-
-        if (currentDate !== snapshot.val().currentDate) {
-          shouldUpdate = true;
-        }
 
         for (var key in snapshot.val().activity) {
           if (counter > 7) {
@@ -110,7 +107,6 @@ var ActivityPage = React.createClass({
           stepCount: stepCountArr,
           activeData: activeData,
           inactiveData: inactiveData,
-          shouldUpdate: shouldUpdate,
         }, function() {
           counter = 0;
           context.setState({
@@ -129,10 +125,10 @@ var ActivityPage = React.createClass({
         size='large'
         style={{marginTop: 25}} />) :
     (<ScrollableTabView>
-      <OneDayChart chartData={this.setChartDays(1)} xLabels={this.setXLabels(1)} stepCount={this.setStepCount(1)} activeData={this.state.activeData} inactiveData={this.state.inactiveData} tabLabel="Today" />
-      <ThreeDayChart chartData={this.setChartDays(3)} xLabels={this.setXLabels(3)} stepCount={this.setStepCount(3)} shouldUpdate={this.state.shouldUpdate} tabLabel="3 Days" />
-      <FiveDayChart chartData={this.setChartDays(5)} xLabels={this.setXLabels(5)} stepCount={this.setStepCount(5)} shouldUpdate={this.state.shouldUpdate} tabLabel="5 Days" />
-      <OneWeekChart chartData={this.setChartDays(7)} xLabels={this.setXLabels(7)} stepCount={this.setStepCount(7)} shouldUpdate={this.state.shouldUpdate} tabLabel="1 Week" />
+      <OneDayChart chartData={this.state.chartData.slice(-2)} xLabels={this.state.xLabels.slice(-1)} stepCount={this.state.stepCount.slice(-1)} activeData={this.state.activeData} inactiveData={this.state.inactiveData} tabLabel="Today" />
+      <ThreeDayChart chartData={this.setChartDays(4)} xLabels={this.setXLabels(4)} stepCount={this.setStepCount(4)} tabLabel="3 Days" />
+      <FiveDayChart chartData={this.setChartDays(6)} xLabels={this.setXLabels(6)} stepCount={this.setStepCount(6)} tabLabel="5 Days" />
+      <OneWeekChart chartData={this.setChartDays(8)} xLabels={this.setXLabels(8)} stepCount={this.setStepCount(8)} tabLabel="1 Week" />
     </ScrollableTabView>)
     return (
       <View>

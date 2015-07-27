@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           self.device = device;
           
           self.accelerometerMMA8452Q.shakeThreshold = 0.11;
-          self.accelerometerMMA8452Q.shakeWidth = 200.00;
+          self.accelerometerMMA8452Q.shakeWidth = 300.00;
           [self.accelerometerMMA8452Q.shakeEvent startNotificationsWithHandler:^(id obj, NSError *error) {
             [self handleShake];
           }];
