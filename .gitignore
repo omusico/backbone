@@ -21,6 +21,8 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+*.jsbundle
+*.jsbundl
 
 # node.js
 #

@@ -5,11 +5,15 @@
 
 @property BOOL userActive;
 @property BOOL isConnected;
-@property NSDate *startTime;
+@property BOOL newDay;
+@property BOOL isSynced;
 @property NSDate *date;
 @property NSDateFormatter *formatter;
 @property NSString *userID;
 @property int counter;
+@property int slouchDuration;
+@property float posturePoint;
+@property float flexSensorValue;
 @property int dayCounter;
 @property int notificationInterval;
 @property double dayActive;
@@ -26,21 +30,28 @@
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(setConstants) {
-  
   // App variable (used during local notifcation set-up)
   self.app = [UIApplication sharedApplication];
   
   // Date objects
   self.date = [[NSDate alloc]init];
   self.formatter = [[NSDateFormatter alloc] init];
-  self.startTime = [NSDate date];
   [self.formatter setDateFormat:@"M-dd"];
   
   // User-related objects
   self.counter = 0;
   self.userActive = NO;
   self.isConnected = NO;
-  
+  self.dayCounter = 0;
+  self.dayActive = 1;
+  self.dayInactive = 1;
+  self.isSynced = NO;
+}
+
+RCT_EXPORT_METHOD(setPosturePoint) {
+  NSLog(@"Setting posture point");
+  Firebase *postureInt = [self.userFirebase childByAppendingPath:@"posturePoint"];
+  [postureInt updateChildValues:@{@"posturePoint":[NSNumber numberWithFloat: self.flexSensorValue]}];
 }
 
 RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
@@ -52,21 +63,14 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
   self.userFirebase = [[[[Firebase alloc] initWithUrl:@"https://sweltering-fire-6261.firebaseio.com"] childByAppendingPath:@"users"] childByAppendingPath: self.userID];
   
   // Fetch current day's data from the database and set notification interval
-  [self firebaseSyncData];
+  [self firebaseCheckDate];
+  
   [self firebaseNotificationInterval];
   
-  [self startLocalNotification];
+  [self firebasePosturePoint];
   
-  
-  //Connect with MetaWear and initiate shake event listener
   [[MBLMetaWearManager sharedManager] startScanForMetaWearsWithHandler:^(NSArray *array) {
     for (MBLMetaWear *device in array) {
-
-      // Reject if the signal strength is too low to be close enough
-      if (device.discoveryTimeRSSI.integerValue < -60) {
-        NSLog(@"signal strength is too low to be close enough");
-        continue;
-      }
       
       [[MBLMetaWearManager sharedManager] stopScanForMetaWears];
       
@@ -80,19 +84,22 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           self.accelerometerMMA8452Q = (MBLAccelerometerMMA8452Q *)device.accelerometer;
           self.device = device;
           
-          self.accelerometerMMA8452Q.shakeThreshold = 0.13;
-          self.accelerometerMMA8452Q.shakeWidth = 150.00;
+          self.accelerometerMMA8452Q.shakeThreshold = 0.11;
+          self.accelerometerMMA8452Q.shakeWidth = 200.00;
           [self.accelerometerMMA8452Q.shakeEvent startNotificationsWithHandler:^(id obj, NSError *error) {
             [self handleShake];
           }];
+          [self flexSensor];
         }
       }];
+      break;
     }
   }];
 
 }
 
 - (void)handleShake {
+  NSLog(@"handleShake");
   self.counter++;
   [NSThread detachNewThreadSelector:@selector(checkForIdle) toTarget:self withObject:nil];
   if (self.counter == 10 && !self.userActive) {
@@ -101,10 +108,11 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
     [self stopLocalNotification];
     NSLog(@"User state: Active!");
     [self firebaseStoreUserState];
+    [self vibrateMotor];
     [NSThread detachNewThreadSelector:@selector(checkForActivity) toTarget:self withObject:nil];
   } else {
     ++self.dayCounter;
-    [self firebaseStoreActivity];
+    [self firebaseStoreStepActivity];
   }
 }
 
@@ -114,7 +122,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
   } else {
     self.dayInactive++;
   }
-  [self firebaseStoreActivity];
+  [self firebaseStoreDayActivity];
   [NSThread sleepForTimeInterval:1.0f];
   [NSThread detachNewThreadSelector:@selector(incrementActivity) toTarget:self withObject:nil];
 }
@@ -140,89 +148,141 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
       self.userActive = NO;
       [self firebaseStoreUserState];
       [self startLocalNotification];
+      [self vibrateMotor];
       break;
     }
   }
 }
 
 - (void)vibrateMotor {
-  NSLog(@"Bzzzttt... %@", self.device);
-  [self.device.hapticBuzzer startHapticWithDutyCycle:248 pulseWidth:500 completion:nil];
+  [self.device.hapticBuzzer startHapticWithDutyCycle:200 pulseWidth:500 completion:nil];
 }
 
 - (void)flexSensor {
-  NSLog(@"Reading value...");
   [self.device.gpio.pins[0] setConfiguration:MBLPinConfigurationPulldown];
   MBLGPIOPin *readOut = self.device.gpio.pins[1];
-  MBLEvent *periodicRead = [readOut.analogRatio periodicReadWithPeriod:1000];
+  MBLEvent *periodicRead = [readOut.analogRatio periodicReadWithPeriod:2000];
   
   [periodicRead startNotificationsWithHandler:^(MBLNumericData *obj, NSError *error) {
     if (!error) {
-      NSLog(@"The numeric value is...%f", obj.value.floatValue);
+      double posPoint = self.posturePoint - 0.02;
+      self.flexSensorValue = obj.value.floatValue;
+      //NSLog(@"The flex sensor value is...%f", self.flexSensorValue);
+      if (obj.value.floatValue < posPoint) {
+        self.slouchDuration++;
+        NSLog(@"Slouch duration: %i", self.slouchDuration);
+        if (self.slouchDuration >= 5) {
+          [self vibrateMotor];
+          self.slouchDuration = 0;
+        }
+      } else {
+        self.slouchDuration = 0;
+      }
     }
   }];
 }
 
 - (void)startLocalNotification {
   NSLog(@"Starting Local Notification");
+  [self.app cancelAllLocalNotifications];
   
   if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
     [self.app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
   }
+    
+  int timeMinutes = self.notificationInterval / 60;
   UILocalNotification* localNotification = [[UILocalNotification alloc] init];
   localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow: self.notificationInterval];
-  localNotification.alertBody = [NSString stringWithFormat: @"You've been inactive for %i minutes!", self.notificationInterval];
+  localNotification.alertBody = [NSString stringWithFormat: @"You've been inactive for %i minute(s)!", timeMinutes];
   localNotification.soundName = UILocalNotificationDefaultSoundName;
   localNotification.timeZone = [NSTimeZone localTimeZone];
   [self.app scheduleLocalNotification:localNotification];
 }
 
 - (void)stopLocalNotification {
-  NSLog(@"Canceling Local Notification");
-  NSArray *eventArray = [self.app scheduledLocalNotifications];
-  if (!eventArray || ![eventArray count]) {
-    NSLog(@"We couldn't find a local notification to cancel...");
-  } else {
-    UILocalNotification* oneEvent = [eventArray objectAtIndex:0];
-    [self.app cancelLocalNotification:oneEvent];
-  }
+  NSLog(@"Canceling Local Notifications");
+  [self.app cancelAllLocalNotifications];
 }
 
 - (void)firebaseSyncData {
    Firebase *syncData = [[self.userFirebase childByAppendingPath:@"activity"] childByAppendingPath:[self.formatter stringFromDate:self.date]];
+  
   [syncData updateChildValues:@{@"userActive": @"NO"}];
-  [self.userFirebase updateChildValues:@{@"currentDate": [self.formatter stringFromDate:self.date]}];
+  
+  if (self.newDay) {
+    [self.userFirebase updateChildValues:@{@"currentDate": [self.formatter stringFromDate:self.date]}];
+    [syncData updateChildValues:@{@"dayActive": [NSNumber numberWithInt:(self.dayActive)]}];
+    [syncData updateChildValues:@{@"dayInactive": [NSNumber numberWithInt:(self.dayInactive)]}];
+  }
+  
   [syncData observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    NSNumber *stepCountNum = snapshot.value[@"stepCount"];
     NSNumber *dayActiveNum = snapshot.value[@"dayActive"];
     NSNumber *dayInactiveNum = snapshot.value[@"dayInactive"];
-    NSNumber *stepCountNum = snapshot.value[@"stepCount"];
+    self.dayCounter = [stepCountNum intValue];
     self.dayActive = [dayActiveNum intValue];
     self.dayInactive = [dayInactiveNum intValue];
-    self.dayCounter = [stepCountNum intValue];
-    [self firebaseStoreActivity];
+    self.isSynced = YES;
+    [self firebaseStoreStepActivity];
+    [self firebaseStoreDayActivity];
   } withCancelBlock:^(NSError *error) {
     NSLog(@"%@", error.description);
+  }];
+}
+
+- (void)firebaseCheckDate {
+  [self.userFirebase observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    if ([snapshot.value[@"currentDate"] isEqualToString:[self.formatter stringFromDate:self.date]] || !snapshot.value) {
+      self.newDay = NO;
+      [self firebaseSyncData];
+    } else {
+      self.newDay = YES;
+      [self firebaseSyncData];
+    }
   }];
 }
 
 - (void)firebaseNotificationInterval {
   Firebase *notificationInt = [self.userFirebase childByAppendingPath:@"notificationInterval"];
   [notificationInt observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-    NSNumber *notificationIntervalNum = snapshot.value;
-    self.notificationInterval = [notificationIntervalNum intValue];
+    if (snapshot.value == (id)[NSNull null]) {
+      [notificationInt updateChildValues:@{@"notificationInterval": @1800}];
+      self.notificationInterval = 1800;
+    } else {
+      self.notificationInterval = [snapshot.value[@"notificationInterval"] intValue];
+    }
+    [self startLocalNotification];
   }];
 }
 
- - (void)firebaseStoreActivity {
+- (void)firebasePosturePoint {
+  Firebase *postureInt = [self.userFirebase childByAppendingPath:@"posturePoint"];
+  [postureInt observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    if (snapshot.value == (id)[NSNull null] || !snapshot.value[@"posturePoint"]) {
+      [postureInt updateChildValues:@{@"posturePoint": @0.55}];
+      self.posturePoint = 0.55;
+      NSLog(@"Posture point is... %f", self.posturePoint);
+    } else {
+      self.posturePoint = [snapshot.value[@"posturePoint"] floatValue];
+      NSLog(@"Posture point is... %f", self.posturePoint);
+    }
+  }];
+}
+
+ - (void)firebaseStoreDayActivity {
    Firebase *dayData = [[self.userFirebase childByAppendingPath:@"activity"] childByAppendingPath:[self.formatter stringFromDate:self.date]];
-   if (self.isConnected) {
-     [dayData updateChildValues:@{@"stepCount": [NSNumber numberWithInt:(self.dayCounter)]}];
-   } else {
-     [dayData updateChildValues:@{@"stepCount": @"Syncing with device..."}];
-   }
    [dayData updateChildValues:@{@"dayActive": [NSNumber numberWithInt:(self.dayActive)]}];
    [dayData updateChildValues:@{@"dayInactive": [NSNumber numberWithInt:(self.dayInactive)]}];
  }
+
+- (void)firebaseStoreStepActivity {
+  Firebase *dayData = [[self.userFirebase childByAppendingPath:@"activity"] childByAppendingPath:[self.formatter stringFromDate:self.date]];
+  if (self.isConnected && self.isSynced) {
+    [dayData updateChildValues:@{@"stepCount": [NSNumber numberWithInt:(self.dayCounter)]}];
+  } else {
+    [self firebaseSyncData];
+  }
+}
 
 - (void)firebaseStoreUserState {
   Firebase *userActive = [[self.userFirebase childByAppendingPath:@"activity"] childByAppendingPath:[self.formatter stringFromDate:self.date]];
