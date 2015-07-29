@@ -34,6 +34,22 @@ var styles = StyleSheet.create({
     margin: 10,
     fontSize: 14,
     color: '#FFA500'
+  },
+  activeBar: {
+    backgroundColor: '#48BBEC',
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inactiveBar: {
+    backgroundColor: '#FFA500',
+    height: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  activeStateText: {
+    color: 'white',
+    fontWeight: 'bold',
   }
 });
 
@@ -98,6 +114,12 @@ var OneDayChart = React.createClass({
     }
   },
   render: function() {
+    var activityText = (this.props.userActive === "YES") ? (
+    <View style={styles.activeBar}>
+      <Text style={styles.activeStateText}>You're currently active!</Text>
+    </View>) : (<View style={styles.inactiveBar}>
+      <Text style={styles.activeStateText}>You're currently inactive!</Text>
+    </View>)
     var hasData = this.state.hasData ? (<RNChart style={styles.chart}
       chartData={this.state.chartData}
       xLabels={this.props.xLabels}
@@ -112,6 +134,7 @@ var OneDayChart = React.createClass({
           {hasData}
         </View>
         <View>
+          {activityText}
           <Text style={styles.activityText}>Steps taken: {isConnected}</Text>
           <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.state.activeData)}</Text>
           <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
