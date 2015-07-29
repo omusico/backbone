@@ -33,7 +33,8 @@ var Settings = React.createClass({
         <View style={styles.container}>
           <View>
             <Text>Battery life percentage: {this.state.currentBatteryLife}</Text>
-            <Text>Change notification interval here</Text>
+            <Text>Change notification interval</Text>
+            <Text>Change posture sensitivity</Text>
           </View>
       </View>
     )

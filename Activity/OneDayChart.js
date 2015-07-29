@@ -24,6 +24,16 @@ var styles = StyleSheet.create({
   activityText: {
     margin: 10,
     fontSize: 14,
+  },
+  dayActiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#48BBEC',
+  },
+  dayInactiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#FFA500'
   }
 });
 
@@ -94,7 +104,7 @@ var OneDayChart = React.createClass({
       verticalGridStep="1"
       showAxis={false}>
     </RNChart>) :
-    (<Text>Please wear your Backbone more to gather more information!</Text>)
+    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) : (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>
@@ -103,8 +113,8 @@ var OneDayChart = React.createClass({
         </View>
         <View>
           <Text style={styles.activityText}>Steps taken: {isConnected}</Text>
-          <Text style={styles.activityText}>Time active: {this.activityTime(this.state.activeData)}</Text>
-          <Text style={styles.activityText}>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
+          <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.state.activeData)}</Text>
+          <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
         </View>
       </View>
     )

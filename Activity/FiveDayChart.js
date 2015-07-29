@@ -21,6 +21,20 @@ var styles = StyleSheet.create({
     width: deviceWidth,
     height: deviceHeight,
   },
+  activityText: {
+    margin: 10,
+    fontSize: 14,
+  },
+  dayActiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#48BBEC',
+  },
+  dayInactiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#FFA500'
+  }
 });
 
 var FiveDayChart = React.createClass({
@@ -48,7 +62,7 @@ var FiveDayChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.xLabels.length === 5 && nextProps.shouldUpdate) {
+    if (nextProps.xLabels.length === 5 && this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1]) {
       this.setState({
         chartData: [
           {
@@ -63,23 +77,58 @@ var FiveDayChart = React.createClass({
         stepCount: nextProps.stepCount,
         hasData: false,
       }, function() {
-        console.log('We are going to update...');
         this.setState({
           hasData: true,
         });
       });
     }
   },
+  shouldComponentUpdate: function(nextProps) {
+    return this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1];
+  },
+  addDayData: function(active) {
+    var counter = 0;
+    for (var i = active; i < this.props.chartData.length; i += 2) {
+      counter += this.props.chartData[i];
+    }
+    return counter;
+  },
+  addSteps: function() {
+    var counter = 0;
+    for (var i = 0; i < this.props.stepCount.length; i++) {
+      counter += this.props.stepCount[i];
+    }
+    return counter;
+  },
+  activityTime: function(rawTime) {
+    if (rawTime > 60) {
+      if (rawTime > 3600) {
+        return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+      } else {
+        return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+      }
+    } else {
+      return rawTime + ' seconds';
+    }
+  },
   render: function() {
-    var hasData = this.state.hasData ? (<RNChart style={styles.chart}
+    var hasData = this.state.hasData ?
+    (<View>
+      <RNChart style={styles.chart}
       chartData={this.state.chartData}
       xLabels={this.props.xLabels}
       verticalGridStep="1">
-    </RNChart>) :
-    (<Text>Please wear your Backbone more to gather more information!</Text>)
+      </RNChart>
+      <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
+      <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
+      <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
+    </View>) :
+    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
-        {hasData}
+        <View>
+          {hasData}
+        </View>
       </View>
     )
   }

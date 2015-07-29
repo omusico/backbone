@@ -13,15 +13,15 @@ var {
 } = React;
 
 var deviceWidth = (require('Dimensions').get('window').width * .85);
-var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+var deviceWidthButton = (require('Dimensions').get('window').width * .75);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   setPostureButton: {
-    flex: 1,
     justifyContent: 'center',
     backgroundColor: '#48BBEC',
     borderColor: '#ccc',
@@ -30,7 +30,7 @@ var styles = StyleSheet.create({
     height: 50,
     width: deviceWidthButton,
     margin: 15,
-    padding: 5,
+    padding: 10,
   },
   buttonText: {
     alignSelf: 'center',
@@ -38,15 +38,43 @@ var styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  postureCalibrated: {
+    color: 'green',
+    fontSize: 14,
+    fontWeight: 'bold',
+    margin: 10,
+  }
 });
 
 var PosturePage = React.createClass({
+  getInitialState: function() {
+    return {
+      buttonPressed: false,
+    };
+  },
+  togglePostureButton: function() {
+    RNMetaWear.setPosturePoint();
+    var context = this;
+    this.setState({
+      buttonPressed: true,
+    }, function() {
+      setTimeout(function() {
+        context.setState({
+          buttonPressed: false,
+        });
+      }, 5000);
+    });
+  },
   render: function() {
+    var postureCalibrated = this.state.buttonPressed ? (<Text style={styles.postureCalibrated}>Posture calibrated!</Text>) : (<View />)
     return (
       <View style={styles.container}>
-      <TouchableHighlight style={styles.setPostureButton} onPress={RNMetaWear.setPosturePoint}>
+      <TouchableHighlight style={styles.setPostureButton} onPress={this.togglePostureButton}>
         <Text style={styles.buttonText}>Calibrate Posture Settings</Text>
       </TouchableHighlight>
+      <View>
+        {postureCalibrated}
+      </View>
       </View>
     )
   },

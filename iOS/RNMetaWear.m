@@ -85,7 +85,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           self.device = device;
           
           self.accelerometerMMA8452Q.shakeThreshold = 0.11;
-          self.accelerometerMMA8452Q.shakeWidth = 200.00;
+          self.accelerometerMMA8452Q.shakeWidth = 300.00;
           [self.accelerometerMMA8452Q.shakeEvent startNotificationsWithHandler:^(id obj, NSError *error) {
             [self handleShake];
           }];
@@ -171,7 +171,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
       if (obj.value.floatValue < posPoint) {
         self.slouchDuration++;
         NSLog(@"Slouch duration: %i", self.slouchDuration);
-        if (self.slouchDuration >= 5) {
+        if (self.slouchDuration >= 10) {
           [self vibrateMotor];
           self.slouchDuration = 0;
         }
@@ -232,11 +232,18 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
 
 - (void)firebaseCheckDate {
   [self.userFirebase observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-    if ([snapshot.value[@"currentDate"] isEqualToString:[self.formatter stringFromDate:self.date]] || !snapshot.value) {
-      self.newDay = NO;
+    if (!snapshot.value) {
+      NSLog(@"Probably a new user");
+      self.newDay = YES;
+      [self firebaseSyncData];
+    }
+    else if (![snapshot.value[@"currentDate"] isEqualToString:[self.formatter stringFromDate:self.date]]) {
+      NSLog(@"New day");
+      self.newDay = YES;
       [self firebaseSyncData];
     } else {
-      self.newDay = YES;
+      NSLog(@"Same day");
+      self.newDay = NO;
       [self firebaseSyncData];
     }
   }];
