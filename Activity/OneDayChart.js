@@ -104,7 +104,7 @@ var OneDayChart = React.createClass({
       verticalGridStep="1"
       showAxis={false}>
     </RNChart>) :
-    (<Text>Please wear your Backbone more to gather more information!</Text>)
+    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) : (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>

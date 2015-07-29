@@ -82,9 +82,8 @@ var ActivityPage = React.createClass({
       var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
       if (snapshot.val() === null || !snapshot.val().activity) {
         var newActivity = {};
-        newActivity[currentDate] = {dayActive: 1, dayInactive: 1};
-        var usersRef = ref.child('users');
-        usersRef.child(context.props.userID).set({
+        newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
+        ref.child(context.props.userID).set({
           activity: newActivity
         });
       } else {

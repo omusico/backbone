@@ -63,7 +63,7 @@ var ThreeDayChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.xLabels.length === 3) {
+    if (nextProps.xLabels.length === 3 && this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1]) {
       this.setState({
         chartData: [
           {
@@ -78,7 +78,6 @@ var ThreeDayChart = React.createClass({
         stepCount: nextProps.stepCount,
         hasData: false,
       }, function() {
-        console.log('We are going to update...');
         this.setState({
           hasData: true,
         });
@@ -86,7 +85,6 @@ var ThreeDayChart = React.createClass({
     }
   },
   shouldComponentUpdate: function(nextProps) {
-    console.log('should we update?', this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1]);
     return this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1];
   },
   addDayData: function(active) {
@@ -115,21 +113,22 @@ var ThreeDayChart = React.createClass({
     }
   },
   render: function() {
-    var hasData = this.state.hasData ? (<RNChart style={styles.chart}
+    var hasData = this.state.hasData ?
+    (<View>
+      <RNChart style={styles.chart}
       chartData={this.state.chartData}
       xLabels={this.props.xLabels}
       verticalGridStep="1">
-    </RNChart>) :
-    (<Text>Please wear your Backbone more to gather more information!</Text>)
+      </RNChart>
+      <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
+      <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
+      <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
+    </View>) :
+    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
         <View>
           {hasData}
-        </View>
-        <View>
-          <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
-          <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
-          <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
         </View>
       </View>
     )

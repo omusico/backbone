@@ -21,6 +21,20 @@ var styles = StyleSheet.create({
     width: deviceWidth,
     height: deviceHeight,
   },
+  activityText: {
+    margin: 10,
+    fontSize: 14,
+  },
+  dayActiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#48BBEC',
+  },
+  dayInactiveText: {
+    margin: 10,
+    fontSize: 14,
+    color: '#FFA500'
+  }
 });
 
 var OneWeekChart = React.createClass({
@@ -48,7 +62,7 @@ var OneWeekChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
-    if (nextProps.xLabels.length === 7) {
+    if (nextProps.xLabels.length === 7 && this.props.xLabels[this.props.xLabels.length - 1] !== nextProps.xLabels[nextProps.xLabels.length - 1]) {
       this.setState({
         chartData: [
           {
@@ -63,7 +77,6 @@ var OneWeekChart = React.createClass({
         stepCount: nextProps.stepCount,
         hasData: false,
       }, function() {
-        console.log('We are going to update...');
         this.setState({
           hasData: true,
         });
@@ -99,21 +112,22 @@ var OneWeekChart = React.createClass({
     }
   },
   render: function() {
-    var hasData = this.state.hasData ? (<RNChart style={styles.chart}
+    var hasData = this.state.hasData ?
+    (<View>
+      <RNChart style={styles.chart}
       chartData={this.state.chartData}
       xLabels={this.props.xLabels}
       verticalGridStep="1">
-    </RNChart>) :
+      </RNChart>
+      <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
+      <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
+      <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
+    </View>) :
     (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
         <View>
           {hasData}
-        </View>
-        <View>
-          <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
-          <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
-          <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
         </View>
       </View>
     )
