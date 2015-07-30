@@ -9,30 +9,41 @@ var {
   StyleSheet
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * 0.95);
-var deviceHeight = (require('Dimensions').get('window').width * 0.70);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceHeight = (require('Dimensions').get('window').height * 0.43);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ccc',
   },
   chart: {
     margin: 10,
     width: deviceWidth,
     height: deviceHeight,
   },
+  chartContainer: {
+    borderWidth: 2,
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    shadowColor: '#ccc',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+  },
   activityText: {
     margin: 10,
-    fontSize: 14,
+    fontSize: 16,
   },
   dayActiveText: {
     margin: 10,
-    fontSize: 14,
+    fontSize: 16,
     color: '#48BBEC',
   },
   dayInactiveText: {
     margin: 10,
-    fontSize: 14,
+    marginBottom: 25,
+    fontSize: 16,
     color: '#FFA500'
   }
 });
@@ -103,12 +114,12 @@ var FiveDayChart = React.createClass({
   activityTime: function(rawTime) {
     if (rawTime > 60) {
       if (rawTime > 3600) {
-        return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+        return (rawTime - (rawTime % 360)) / 360 + 'h ' + (rawTime - (rawTime % 60)) / 60 + 'm ' + rawTime % 60 + 's';
       } else {
-        return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+        return (rawTime - (rawTime % 60)) / 60 + 'm ' + rawTime % 60 + 's';
       }
     } else {
-      return rawTime + ' seconds';
+      return rawTime + 's';
     }
   },
   render: function() {
@@ -126,7 +137,7 @@ var FiveDayChart = React.createClass({
     (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
-        <View>
+        <View style={styles.chartContainer}>
           {hasData}
         </View>
       </View>

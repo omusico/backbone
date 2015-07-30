@@ -11,22 +11,12 @@ var {
   StyleSheet,
   View,
   Component,
-  Text,
-  TouchableHighlight,
   ActivityIndicatorIOS
 } = React;
-
-var deviceWidth = (require('Dimensions').get('window').width * 0.95);
-var deviceHeight = (require('Dimensions').get('window').width * 0.70);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  chart: {
-    margin: 10,
-    width: deviceWidth,
-    height: deviceHeight,
   },
 });
 
@@ -39,6 +29,7 @@ var ActivityPage = React.createClass({
       isLoading: true,
       activeData: 0,
       inactiveData: 0,
+      activityState: "NO",
     };
   },
   setChartDays: function(days) {
@@ -75,37 +66,40 @@ var ActivityPage = React.createClass({
     var context = this;
     var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/users/");
     ref.child(this.props.userID).on('value', function(snapshot) {
+      var snapshotValue = snapshot.val();
+      var activityState = "NO";
       var counter = 0;
       var chartDataArr = [];
       var stepCountArr = [];
       var date = new Date();
       var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
-      if (snapshot.val() === null || !snapshot.val().activity) {
+      if (snapshotValue === null || !snapshotValue.activity) {
         var newActivity = {};
         newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
         ref.child(context.props.userID).set({
           activity: newActivity
         });
       } else {
-        var activeData = snapshot.val().activity[currentDate].dayActive;
-        var inactiveData = snapshot.val().activity[currentDate].dayInactive;
-
-        for (var key in snapshot.val().activity) {
+        var activeData = snapshotValue.activity[currentDate].dayActive;
+        var inactiveData = snapshotValue.activity[currentDate].dayInactive;
+        activityState = snapshotValue.activity[currentDate].userActive;
+        for (var key in snapshotValue.activity) {
           if (counter > 7) {
             counter = 0;
             break;
           }
-          chartDataArr.push(snapshot.val().activity[key].dayActive);
-          chartDataArr.push(snapshot.val().activity[key].dayInactive);
-          stepCountArr.push(snapshot.val().activity[key].stepCount);
+          chartDataArr.push(snapshotValue.activity[key].dayActive);
+          chartDataArr.push(snapshotValue.activity[key].dayInactive);
+          stepCountArr.push(snapshotValue.activity[key].stepCount);
           counter++;
         }
         context.setState({
-          xLabels: Object.keys(snapshot.val().activity),
+          xLabels: Object.keys(snapshotValue.activity),
           chartData: chartDataArr,
           stepCount: stepCountArr,
           activeData: activeData,
           inactiveData: inactiveData,
+          activityState: activityState,
         }, function() {
           counter = 0;
           context.setState({
@@ -124,13 +118,13 @@ var ActivityPage = React.createClass({
         size='large'
         style={{marginTop: 25}} />) :
     (<ScrollableTabView>
-      <OneDayChart chartData={this.state.chartData.slice(-2)} xLabels={this.state.xLabels.slice(-1)} stepCount={this.state.stepCount.slice(-1)} activeData={this.state.activeData} inactiveData={this.state.inactiveData} tabLabel="Today" />
+      <OneDayChart chartData={this.state.chartData.slice(-2)} xLabels={this.state.xLabels.slice(-1)} stepCount={this.state.stepCount.slice(-1)} activeData={this.state.activeData} inactiveData={this.state.inactiveData} userActive={this.state.activityState} tabLabel="Today" />
       <ThreeDayChart chartData={this.setChartDays(4)} xLabels={this.setXLabels(4)} stepCount={this.setStepCount(4)} tabLabel="3 Days" />
       <FiveDayChart chartData={this.setChartDays(6)} xLabels={this.setXLabels(6)} stepCount={this.setStepCount(6)} tabLabel="5 Days" />
       <OneWeekChart chartData={this.setChartDays(8)} xLabels={this.setXLabels(8)} stepCount={this.setStepCount(8)} tabLabel="1 Week" />
     </ScrollableTabView>)
     return (
-      <View>
+      <View style={styles.container}>
         {spinner}
       </View>
     )

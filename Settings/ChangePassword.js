@@ -10,13 +10,24 @@ var {
 
 var deviceWidth = (require('Dimensions').get('window').width * .85);
 var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+var deviceHeight = (require('Dimensions').get('window').height * 0.95);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ccc',
+  },
+  viewSeparator: {
+    paddingTop: 10,
+    borderWidth: 2,
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    shadowColor: '#ccc',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
+    height: deviceHeight,
   },
   inputBox: {
     height: 50,
@@ -25,15 +36,15 @@ var styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     borderRadius: 8,
+    alignSelf: 'center',
   },
   loginText: {
     margin: 5,
     fontSize: 20,
   },
   editButton: {
-    flex: 1,
-    justifyContent: 'center',
     alignSelf: 'center',
+    justifyContent: 'center',
     backgroundColor: '#48BBEC',
     borderColor: '#ccc',
     borderWidth: 4,
@@ -122,18 +133,14 @@ var ChangePassword = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <View>
+        <View style={styles.viewSeparator}>
           <Text style={styles.loginText}>Current password</Text>
           <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updatePassword} />
           <Text style={styles.loginText}>New password</Text>
           <TextInput style={styles.inputBox} secureTextEntry={true} onChange={this.updateNewPassword} />
-        </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
           <TouchableHighlight style={styles.editButton} onPress={this.saveNewPassword}>
             <Text style={styles.buttonText}>Save</Text>
           </TouchableHighlight>
-        </View>
-        <View>
           <Text style={{fontWeight: 'bold', color: this.state.messageColor}}>{this.state.message}</Text>
         </View>
       </View>

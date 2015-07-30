@@ -16,8 +16,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  container: {
-  },
   header: {
     fontSize: 36,
     justifyContent: 'center',
