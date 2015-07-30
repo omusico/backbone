@@ -69,34 +69,35 @@ var ActivityPage = React.createClass({
     var context = this;
     var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/users/");
     ref.child(this.props.userID).on('value', function(snapshot) {
+      var snapshotValue = snapshot.val();
       var activityState = "NO";
       var counter = 0;
       var chartDataArr = [];
       var stepCountArr = [];
       var date = new Date();
       var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
-      if (snapshot.val() === null || !snapshot.val().activity) {
+      if (snapshotValue === null || !snapshotValue.activity) {
         var newActivity = {};
         newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
         ref.child(context.props.userID).set({
           activity: newActivity
         });
       } else {
-        var activeData = snapshot.val().activity[currentDate].dayActive;
-        var inactiveData = snapshot.val().activity[currentDate].dayInactive;
-        activityState = snapshot.val().activity[currentDate].userActive;
-        for (var key in snapshot.val().activity) {
+        var activeData = snapshotValue.activity[currentDate].dayActive;
+        var inactiveData = snapshotValue.activity[currentDate].dayInactive;
+        activityState = snapshotValue.activity[currentDate].userActive;
+        for (var key in snapshotValue.activity) {
           if (counter > 7) {
             counter = 0;
             break;
           }
-          chartDataArr.push(snapshot.val().activity[key].dayActive);
-          chartDataArr.push(snapshot.val().activity[key].dayInactive);
-          stepCountArr.push(snapshot.val().activity[key].stepCount);
+          chartDataArr.push(snapshotValue.activity[key].dayActive);
+          chartDataArr.push(snapshotValue.activity[key].dayInactive);
+          stepCountArr.push(snapshotValue.activity[key].stepCount);
           counter++;
         }
         context.setState({
-          xLabels: Object.keys(snapshot.val().activity),
+          xLabels: Object.keys(snapshotValue.activity),
           chartData: chartDataArr,
           stepCount: stepCountArr,
           activeData: activeData,
