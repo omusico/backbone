@@ -12,6 +12,7 @@
 @property NSString *userID;
 @property int counter;
 @property int slouchDuration;
+@property int slouchTimer;
 @property float posturePoint;
 @property float flexSensorValue;
 @property int dayCounter;
@@ -66,6 +67,8 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
   [self firebaseCheckDate];
   
   [self firebaseNotificationInterval];
+  
+  [self firebaseSlouchDuration];
   
   [self firebasePosturePoint];
   
@@ -169,14 +172,14 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
       self.flexSensorValue = obj.value.floatValue;
       //NSLog(@"The flex sensor value is...%f", self.flexSensorValue);
       if (obj.value.floatValue < posPoint) {
-        self.slouchDuration++;
-        NSLog(@"Slouch duration: %i", self.slouchDuration);
-        if (self.slouchDuration >= 10) {
+        self.slouchTimer++;
+        NSLog(@"Slouch duration: %i", self.slouchTimer);
+        if (self.slouchTimer >= self.slouchDuration) {
           [self vibrateMotor];
-          self.slouchDuration = 0;
+          self.slouchTimer = 0;
         }
       } else {
-        self.slouchDuration = 0;
+        self.slouchTimer = 0;
       }
     }
   }];
@@ -257,8 +260,22 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
       self.notificationInterval = 1800;
     } else {
       self.notificationInterval = [snapshot.value[@"notificationInterval"] intValue];
+      NSLog(@"notificationInterval is now... %i", self.notificationInterval);
     }
     [self startLocalNotification];
+  }];
+}
+
+- (void)firebaseSlouchDuration {
+  Firebase *slouchInt = [self.userFirebase childByAppendingPath:@"slouchDuration"];
+  [slouchInt observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    if (snapshot.value == (id)[NSNull null]) {
+      [slouchInt updateChildValues:@{@"slouchDuration": @10}];
+      self.slouchDuration = 10;
+    } else {
+      self.slouchDuration = [snapshot.value[@"slouchDuration"] intValue];
+      NSLog(@"slouchDuration is now... %i", self.slouchDuration);
+    }
   }];
 }
 

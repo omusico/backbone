@@ -27,7 +27,7 @@ var SettingsPage = React.createClass({
         <ScrollableTabView>
           <ChangeEmail email={this.props.email} tabLabel="Email" />
           <ChangePassword email={this.props.email} tabLabel="Password" />
-          <Settings email={this.props.email} tabLabel="Settings" />
+          <Settings userID={this.props.userID} email={this.props.email} tabLabel="Settings" />
         </ScrollableTabView>
       </View>
     )
