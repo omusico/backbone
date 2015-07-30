@@ -32,9 +32,36 @@ var Settings = React.createClass({
     return (
         <View style={styles.container}>
           <View>
-            <Text>Battery life percentage: {this.state.currentBatteryLife}</Text>
-            <Text>Change notification interval</Text>
-            <Text>Change posture sensitivity</Text>
+            <View>
+              <Text>Change notification interval</Text>
+              <TouchableHighlight>
+                <Text>15m</Text>
+              </TouchableHighlight>
+              <TouchableHighlight>
+                <Text>30m</Text>
+              </TouchableHighlight>
+              <TouchableHighlight>
+                <Text>45m</Text>
+              </TouchableHighlight>
+              <TouchableHighlight>
+                <Text>1hr</Text>
+              </TouchableHighlight>
+            </View>
+            <View>
+              <Text>Change slouch duration</Text>
+              <TouchableHighlight>
+                <Text>5s</Text>
+              </TouchableHighlight>
+              <TouchableHighlight>
+                <Text>10s</Text>
+              </TouchableHighlight>
+              <TouchableHighlight>
+                <Text>15s</Text>
+              </TouchableHighlight>
+            </View>
+            <View>
+              <Text>Battery life percentage: {this.state.currentBatteryLife}</Text>
+            </View>
           </View>
       </View>
     )

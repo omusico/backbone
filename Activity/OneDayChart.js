@@ -9,47 +9,55 @@ var {
   StyleSheet,
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * 0.95);
-var deviceHeight = (require('Dimensions').get('window').width * 0.70);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceHeight = (require('Dimensions').get('window').width * 0.65);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#ccc',
   },
   chart: {
     margin: 10,
     width: deviceWidth,
     height: deviceHeight,
   },
+  chartContainer: {
+    margin: 10,
+    backgroundColor: 'white',
+  },
   activityText: {
     margin: 10,
-    fontSize: 14,
+    fontSize: 16,
   },
   dayActiveText: {
     margin: 10,
-    fontSize: 14,
+    fontSize: 16,
     color: '#48BBEC',
   },
   dayInactiveText: {
     margin: 10,
-    fontSize: 14,
+    fontSize: 16,
     color: '#FFA500'
   },
   activeBar: {
+    marginBottom: 5,
     backgroundColor: '#48BBEC',
-    height: 25,
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
   },
   inactiveBar: {
+    marginBottom: 5,
     backgroundColor: '#FFA500',
-    height: 25,
+    height: 35,
     alignItems: 'center',
     justifyContent: 'center',
   },
   activeStateText: {
     color: 'white',
     fontWeight: 'bold',
+    fontSize: 18,
   }
 });
 
@@ -105,12 +113,12 @@ var OneDayChart = React.createClass({
   activityTime: function(rawTime) {
     if (rawTime > 60) {
       if (rawTime > 3600) {
-        return (rawTime - (rawTime % 360)) / 360 + ' hours ' + (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+        return (rawTime - (rawTime % 360)) / 360 + 'h ' + (rawTime - (rawTime % 60)) / 60 + 'm ' + rawTime % 60 + 's';
       } else {
-        return (rawTime - (rawTime % 60)) / 60 + ' minutes ' + rawTime % 60 + ' seconds';
+        return (rawTime - (rawTime % 60)) / 60 + 'm ' + rawTime % 60 + 's';
       }
     } else {
-      return rawTime + ' seconds';
+      return rawTime + 's';
     }
   },
   render: function() {
@@ -130,10 +138,8 @@ var OneDayChart = React.createClass({
     var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) : (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>
-        <View>
+        <View style={styles.chartContainer}>
           {hasData}
-        </View>
-        <View>
           {activityText}
           <Text style={styles.activityText}>Steps taken: {isConnected}</Text>
           <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.state.activeData)}</Text>

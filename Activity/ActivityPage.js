@@ -11,8 +11,6 @@ var {
   StyleSheet,
   View,
   Component,
-  Text,
-  TouchableHighlight,
   ActivityIndicatorIOS
 } = React;
 
@@ -22,11 +20,6 @@ var deviceHeight = (require('Dimensions').get('window').width * 0.70);
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  chart: {
-    margin: 10,
-    width: deviceWidth,
-    height: deviceHeight,
   },
 });
 
@@ -133,7 +126,7 @@ var ActivityPage = React.createClass({
       <OneWeekChart chartData={this.setChartDays(8)} xLabels={this.setXLabels(8)} stepCount={this.setStepCount(8)} tabLabel="1 Week" />
     </ScrollableTabView>)
     return (
-      <View>
+      <View style={styles.container}>
         {spinner}
       </View>
     )
