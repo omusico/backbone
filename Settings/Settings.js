@@ -4,7 +4,6 @@ var {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableHighlight,
 } = React;
 
