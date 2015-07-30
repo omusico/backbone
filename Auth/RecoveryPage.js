@@ -1,9 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var Firebase = require('firebase');
 var HomePage = require('../HomePage');
-var RNMetaWear = require('NativeModules').RNMetaWear;
 
 var {
   StyleSheet,
