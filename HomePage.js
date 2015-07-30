@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.01)',
   },
   card: {
-    borderWidth: 1,
+    borderWidth: 2,
     backgroundColor: '#fff',
     borderColor: 'rgba(0,0,0,0.1)',
     shadowColor: '#ccc',

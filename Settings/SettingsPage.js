@@ -16,7 +16,7 @@ var {
 
 var styles = StyleSheet.create({
   container: {
-    marginTop: -15,
+    flex: 1,
   },
 });
 

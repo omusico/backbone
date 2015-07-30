@@ -23,8 +23,13 @@ var styles = StyleSheet.create({
     height: deviceHeight,
   },
   chartContainer: {
-    margin: 10,
-    backgroundColor: 'white',
+    borderWidth: 2,
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,0.1)',
+    shadowColor: '#ccc',
+    shadowOffset: {width: 2, height: 2},
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
   },
   activityText: {
     margin: 10,
@@ -37,6 +42,7 @@ var styles = StyleSheet.create({
   },
   dayInactiveText: {
     margin: 10,
+    marginBottom: 25,
     fontSize: 16,
     color: '#FFA500'
   },
