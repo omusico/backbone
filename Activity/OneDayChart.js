@@ -64,6 +64,9 @@ var styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
+  },
+  hasNoData: {
+    margin: 15,
   }
 });
 
@@ -128,10 +131,10 @@ var OneDayChart = React.createClass({
     }
   },
   render: function() {
-    var activityText = (this.props.userActive === "YES") ? (
-    <View style={styles.activeBar}>
+    var activityText = (this.props.userActive === "YES") ? (<View style={styles.activeBar}>
       <Text style={styles.activeStateText}>You're currently active!</Text>
-    </View>) : (<View style={styles.inactiveBar}>
+    </View>) :
+    (<View style={styles.inactiveBar}>
       <Text style={styles.activeStateText}>You're currently inactive!</Text>
     </View>)
     var hasData = this.state.hasData ? (<RNChart style={styles.chart}
@@ -140,8 +143,9 @@ var OneDayChart = React.createClass({
       verticalGridStep="1"
       showAxis={false}>
     </RNChart>) :
-    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
-    var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) : (<Text>"Syncing with device..."</Text>)
+    (<Text style={styles.hasNoData}>Please wear your Backbone more to gather more information!</Text>)
+    var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) :
+    (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>
         <View style={styles.chartContainer}>

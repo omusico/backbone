@@ -116,11 +116,12 @@ var LoginPage = React.createClass({
     });
   },
   render: function() {
-    var spinner = this.state.isLoading ?
-    ( <ActivityIndicatorIOS
+    var spinner = this.state.isLoading ? (<ActivityIndicatorIOS
         hidden='true'
         size='small' />) :
-    (<View><Text style={{fontWeight: 'bold', color: this.state.messageColor, margin: 5}}> {this.state.message}</Text></View>)
+    (<View>
+      <Text style={{fontWeight: 'bold', color: this.state.messageColor, margin: 5}}> {this.state.message}</Text>
+    </View>)
     return (
       <View style={styles.container}>
         <View style={styles.textInput}>

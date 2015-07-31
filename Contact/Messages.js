@@ -20,33 +20,8 @@ var deviceWidthButton = (require('Dimensions').get('window').width * .30);
 
 var styles = StyleSheet.create({
   container: {
-  },
-  message: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
   },
-  messageInput: {
-    height: 50,
-    width: deviceWidth,
-    borderColor: '#ccc',
-    borderWidth: 1,
-  },
-  messageButton: {
-    height: 50,
-    width: deviceWidthButton,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#48BBEC'
-  },
-  messageText: {
-    fontSize: 24,
-    color: 'white',
-  }
 });
 
 var Messages = React.createClass({

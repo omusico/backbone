@@ -21,6 +21,7 @@ var deviceWidthButton = (require('Dimensions').get('window').width * 0.30);
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
   },
   message: {
     flex: 1,
@@ -64,14 +65,11 @@ var ContactPage = React.createClass({
       if (snapshot.val()) {
         context.setState({
           firebaseData: snapshot.val(),
-        }, function() {
-          console.log('FirebaseData value: ', context.state.firebaseData);
         });
       }
     });
   },
   sendMessage: function() {
-    console.log('Sending this message... ', this.state.message);
     var userRef = new Firebase('https://sweltering-fire-6261.firebaseio.com/').child('users').child(this.props.userID);
     var newMsgRef = userRef.child('messages').push();
     newMsgRef.set({message: this.state.message, admin: 'You'});
@@ -79,8 +77,6 @@ var ContactPage = React.createClass({
   handleMessageUpdate: function(e) {
     this.setState({
       message: e.nativeEvent.text
-    }, function() {
-      console.log('This is your message: ', this.state.message);
     });
   },
   render: function() {
@@ -88,9 +84,9 @@ var ContactPage = React.createClass({
       <View style={styles.container}>
         <View style={styles.message}>
           <TextInput style={styles.messageInput} clearTextOnFocus={true} onChange={this.handleMessageUpdate} multiline={true} />
-            <TouchableHighlight style={styles.messageButton} onPress={this.sendMessage}>
-              <Text style={styles.messageText}>Send</Text>
-            </TouchableHighlight>
+          <TouchableHighlight style={styles.messageButton} onPress={this.sendMessage}>
+            <Text style={styles.messageText}>Send</Text>
+          </TouchableHighlight>
         </View>
         <Messages firebaseData={this.state.firebaseData} />
       </View>
