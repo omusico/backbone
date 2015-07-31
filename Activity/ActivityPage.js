@@ -17,7 +17,14 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: -25,
+    paddingBottom: 25,
   },
+  activityIndicator: {
+    margin: 25,
+    justifyContent: 'center',
+    alignSelf: 'center'
+  }
 });
 
 var ActivityPage = React.createClass({
@@ -67,22 +74,18 @@ var ActivityPage = React.createClass({
     var ref = new Firebase("https://sweltering-fire-6261.firebaseio.com/users/");
     ref.child(this.props.userID).on('value', function(snapshot) {
       var snapshotValue = snapshot.val();
-      var activityState = "NO";
-      var counter = 0;
-      var chartDataArr = [];
-      var stepCountArr = [];
       var date = new Date();
       var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
-      if (snapshotValue === null || !snapshotValue.activity) {
+      if (!snapshotValue || !snapshotValue.activity) {
         var newActivity = {};
         newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
         ref.child(context.props.userID).set({
           activity: newActivity
         });
       } else {
-        var activeData = snapshotValue.activity[currentDate].dayActive;
-        var inactiveData = snapshotValue.activity[currentDate].dayInactive;
-        activityState = snapshotValue.activity[currentDate].userActive;
+          var counter = 0;
+          var chartDataArr = [];
+          var stepCountArr = [];
         for (var key in snapshotValue.activity) {
           if (counter > 7) {
             counter = 0;
@@ -97,9 +100,9 @@ var ActivityPage = React.createClass({
           xLabels: Object.keys(snapshotValue.activity),
           chartData: chartDataArr,
           stepCount: stepCountArr,
-          activeData: activeData,
-          inactiveData: inactiveData,
-          activityState: activityState,
+          activeData: snapshotValue.activity[currentDate].dayActive,
+          inactiveData: snapshotValue.activity[currentDate].dayInactive,
+          activityState: snapshotValue.activity[currentDate].userActive,
         }, function() {
           counter = 0;
           context.setState({
@@ -116,12 +119,27 @@ var ActivityPage = React.createClass({
     ( <ActivityIndicatorIOS
         hidden='true'
         size='large'
-        style={{marginTop: 25}} />) :
+        style={styles.activityIndicator} />) :
     (<ScrollableTabView>
-      <OneDayChart chartData={this.state.chartData.slice(-2)} xLabels={this.state.xLabels.slice(-1)} stepCount={this.state.stepCount.slice(-1)} activeData={this.state.activeData} inactiveData={this.state.inactiveData} userActive={this.state.activityState} tabLabel="Today" />
-      <ThreeDayChart chartData={this.setChartDays(4)} xLabels={this.setXLabels(4)} stepCount={this.setStepCount(4)} tabLabel="3 Days" />
-      <FiveDayChart chartData={this.setChartDays(6)} xLabels={this.setXLabels(6)} stepCount={this.setStepCount(6)} tabLabel="5 Days" />
-      <OneWeekChart chartData={this.setChartDays(8)} xLabels={this.setXLabels(8)} stepCount={this.setStepCount(8)} tabLabel="1 Week" />
+      <OneDayChart chartData={this.state.chartData.slice(-2)}
+        xLabels={this.state.xLabels.slice(-1)}
+        stepCount={this.state.stepCount.slice(-1)}
+        activeData={this.state.activeData}
+        inactiveData={this.state.inactiveData}
+        userActive={this.state.activityState}
+        tabLabel="Today" />
+      <ThreeDayChart chartData={this.setChartDays(4)}
+        xLabels={this.setXLabels(4)}
+        stepCount={this.setStepCount(4)}
+        tabLabel="3 Days" />
+      <FiveDayChart chartData={this.setChartDays(6)}
+        xLabels={this.setXLabels(6)}
+        stepCount={this.setStepCount(6)}
+        tabLabel="5 Days" />
+      <OneWeekChart chartData={this.setChartDays(8)}
+        xLabels={this.setXLabels(8)}
+        stepCount={this.setStepCount(8)}
+        tabLabel="1 Week" />
     </ScrollableTabView>)
     return (
       <View style={styles.container}>

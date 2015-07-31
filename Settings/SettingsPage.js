@@ -10,13 +10,12 @@ var {
   StyleSheet,
   View,
   Component,
-  Text,
-  TouchableHighlight,
 } = React;
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: -25,
   },
 });
 

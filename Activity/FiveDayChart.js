@@ -10,7 +10,7 @@ var {
 } = React;
 
 var deviceWidth = (require('Dimensions').get('window').width * 0.85);
-var deviceHeight = (require('Dimensions').get('window').height * 0.43);
+var deviceHeight = (require('Dimensions').get('window').height * 0.48);
 
 var styles = StyleSheet.create({
   container: {
@@ -45,6 +45,9 @@ var styles = StyleSheet.create({
     marginBottom: 25,
     fontSize: 16,
     color: '#FFA500'
+  },
+  hasNoData: {
+    margin: 15,
   }
 });
 
@@ -126,15 +129,15 @@ var FiveDayChart = React.createClass({
     var hasData = this.state.hasData ?
     (<View>
       <RNChart style={styles.chart}
-      chartData={this.state.chartData}
-      xLabels={this.props.xLabels}
-      verticalGridStep="1">
+        chartData={this.state.chartData}
+        xLabels={this.props.xLabels}
+        verticalGridStep="1">
       </RNChart>
       <Text style={styles.activityText}>Steps taken: {this.addSteps()}</Text>
       <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.addDayData(0))}</Text>
       <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.addDayData(1))}</Text>
     </View>) :
-    (<Text style={{margin: 15}}>Please wear your Backbone more to gather more information!</Text>)
+    (<Text style={styles.hasNoData}>Please wear your Backbone more to gather more information!</Text>)
     return (
       <View style={styles.container}>
         <View style={styles.chartContainer}>

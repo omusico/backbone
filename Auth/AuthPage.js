@@ -16,14 +16,6 @@ var {
 } = React;
 
 var styles = StyleSheet.create({
-  header: {
-    fontSize: 36,
-    justifyContent: 'center',
-    alignSelf: 'center',
-    marginTop: 50,
-    padding: 25,
-    color: '#48BBEC'
-  },
 });
 
 var AuthPage = React.createClass({

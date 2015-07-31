@@ -8,8 +8,8 @@ var {
   TouchableHighlight,
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .85);
-var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+var deviceWidth = (require('Dimensions').get('window').width * 0.85);
+var deviceWidthButton = (require('Dimensions').get('window').width * 0.30);
 var deviceHeight = (require('Dimensions').get('window').height * 0.95);
 
 var styles = StyleSheet.create({
