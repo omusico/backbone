@@ -7,9 +7,6 @@ var {
   TouchableHighlight,
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * 0.85);
-var deviceWidthButton = (require('Dimensions').get('window').width * 0.30);
-
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -102,16 +99,20 @@ var Settings = React.createClass({
   componentWillMount: function() {
     var context = this;
     this.state.firebaseRef.child(this.props.userID).child('notificationInterval').on('value', function(snapshot) {
-      var snapshotValue = snapshot.val().notificationInterval / 60;
-      context.setState({
-        notificationInterval: snapshotValue
-      });
+      if (snapshot.val()) {
+        var snapshotValue = snapshot.val().notificationInterval / 60;
+        context.setState({
+          notificationInterval: snapshotValue
+        });
+      }
     });
     this.state.firebaseRef.child(this.props.userID).child('slouchDuration').on('value', function(snapshot) {
-      var snapshotValue = snapshot.val();
-      context.setState({
-        slouchDuration: snapshotValue.slouchDuration
-      });
+      if (snapshot.val()) {
+        var snapshotValue = snapshot.val();
+        context.setState({
+          slouchDuration: snapshotValue.slouchDuration
+        });
+      }
     });
   },
   render: function() {

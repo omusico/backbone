@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react-native');
 var {
   StyleSheet,
@@ -8,8 +6,9 @@ var {
   TouchableOpacity,
 } = React;
 
-var Icon = require('FAKIconImage');
 var deviceWidth = require('Dimensions').get('window').width;
+var precomputeStyle = require('precomputeStyle');
+var TAB_UNDERLINE_REF = 'TAB_UNDERLINE';
 
 var styles = StyleSheet.create({
   tab: {
@@ -21,18 +20,16 @@ var styles = StyleSheet.create({
   tabs: {
     height: 50,
     flexDirection: 'row',
+    marginTop: 30,
     borderWidth: 1,
     borderTopWidth: 0,
     borderLeftWidth: 0,
     borderRightWidth: 0,
-    borderBottomColor: 'rgba(0,0,0,0.05)',
+    borderBottomColor: '#ccc',
   },
 });
 
 var CustomTabBar = React.createClass({
-  selectedTabIcons: [],
-  unselectedTabIcons: [],
-
   propTypes: {
     goToPage: React.PropTypes.func,
     activeTab: React.PropTypes.number,
@@ -44,33 +41,33 @@ var CustomTabBar = React.createClass({
 
     return (
       <TouchableOpacity key={name} onPress={() => this.props.goToPage(page)}>
-        <View style={styles.tab}>
-          <Icon name={name} size={40} color='#48BBEC' style={{width: 40, height: 40, position: 'absolute', top: 0, left: 30}}
-            ref={(icon) => { this.selectedTabIcons[page] = icon }}/>
-          <Icon name={name} size={40} color='#ccc' style={{width: 40, height: 40, position: 'absolute', top: 0, left: 30}}
-            ref={(icon) => { this.unselectedTabIcons[page] = icon }}/>
+        <View style={[styles.tab]}>
+          <Text style={{color: isTabActive ? 'navy' : 'black', fontWeight: isTabActive ? 'bold' : 'normal'}}>{name}</Text>
         </View>
       </TouchableOpacity>
     );
   },
 
   setAnimationValue(value) {
-    var currentPage = this.props.activeTab;
-
-    this.unselectedTabIcons.forEach((icon, i) => {
-      if (value - i >= 0 && value - i <= 1) {
-        icon.setNativeProps({opacity: value - i});
-      }
-      if (i - value >= 0 &&  i - value <= 1) {
-        icon.setNativeProps({opacity: i - value});
-      }
-    });
+    this.refs[TAB_UNDERLINE_REF].setNativeProps(precomputeStyle({
+      left: (deviceWidth * value) / this.props.tabs.length
+    }));
   },
 
   render() {
+    var numberOfTabs = this.props.tabs.length;
+    var tabUnderlineStyle = {
+      position: 'absolute',
+      width: deviceWidth / numberOfTabs,
+      height: 4,
+      backgroundColor: 'navy',
+      bottom: 0,
+    };
+
     return (
       <View style={styles.tabs}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+        <View style={tabUnderlineStyle} ref={TAB_UNDERLINE_REF} />
       </View>
     );
   },

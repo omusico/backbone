@@ -10,7 +10,7 @@ var {
 } = React;
 
 var deviceWidth = (require('Dimensions').get('window').width * 0.85);
-var deviceHeight = (require('Dimensions').get('window').width * 0.65);
+var deviceHeight = (require('Dimensions').get('window').height * 0.41);
 
 var styles = StyleSheet.create({
   container: {
