@@ -57,7 +57,6 @@ var Settings = React.createClass({
       notificationInterval: null,
       slouchDuration: null,
       currentBatteryLife: 'Syncing with device...',
-      updatedBatteryLife: false,
       firebaseRef: ref,
     };
   },
@@ -114,6 +113,14 @@ var Settings = React.createClass({
         });
       }
     });
+    this.state.firebaseRef.child(this.props.userID).child('batteryLife').on('value', function(snapshot) {
+      if (snapshot.val()) {
+        var snapshotValue = snapshot.val();
+        context.setState({
+          currentBatteryLife: snapshotValue.batteryLife
+        });
+      }
+    });
   },
   render: function() {
     return (
@@ -153,7 +160,7 @@ var Settings = React.createClass({
               </View>
             </View>
             <View  style={styles.settingsSeparator}>
-              <Text>Battery life percentage: {this.state.currentBatteryLife}</Text>
+              <Text>Backbone battery life: {this.state.currentBatteryLife}%</Text>
             </View>
         </View>
       </View>

@@ -13,6 +13,7 @@
 @property int counter;
 @property int slouchDuration;
 @property int slouchTimer;
+@property int batteryLife;
 @property float posturePoint;
 @property float flexSensorValue;
 @property int dayCounter;
@@ -31,7 +32,7 @@
 RCT_EXPORT_MODULE()
 
 RCT_EXPORT_METHOD(setConstants) {
-  // App variable (used during local notifcation set-up)
+  // App variable (used during local notification set-up)
   self.app = [UIApplication sharedApplication];
   
   // Date objects
@@ -83,7 +84,6 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           
           NSLog(@"Connected to device successfully!");
           self.isConnected = YES;
-          
           self.accelerometerMMA8452Q = (MBLAccelerometerMMA8452Q *)device.accelerometer;
           self.device = device;
           
@@ -93,6 +93,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
             [self handleShake];
           }];
           [self flexSensor];
+          [self firebaseStoreBatteryLife];
         }
       }];
       break;
@@ -111,6 +112,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
     [self stopLocalNotification];
     NSLog(@"User state: Active!");
     [self firebaseStoreUserState];
+    [self firebaseStoreBatteryLife];
     [self vibrateMotor];
     [NSThread detachNewThreadSelector:@selector(checkForActivity) toTarget:self withObject:nil];
   } else {
@@ -150,6 +152,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
       self.counter = 0;
       self.userActive = NO;
       [self firebaseStoreUserState];
+      [self firebaseStoreBatteryLife];
       [self startLocalNotification];
       [self vibrateMotor];
       break;
@@ -236,16 +239,13 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
 - (void)firebaseCheckDate {
   [self.userFirebase observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
     if (!snapshot.value) {
-      NSLog(@"Probably a new user");
       self.newDay = YES;
       [self firebaseSyncData];
     }
     else if (![snapshot.value[@"currentDate"] isEqualToString:[self.formatter stringFromDate:self.date]]) {
-      NSLog(@"New day");
       self.newDay = YES;
       [self firebaseSyncData];
     } else {
-      NSLog(@"Same day");
       self.newDay = NO;
       [self firebaseSyncData];
     }
@@ -292,6 +292,31 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
     }
   }];
 }
+
+- (void) firebaseStoreBatteryLife {
+  NSLog(@"battery life check");
+  [self.device readBatteryLifeWithHandler:^(NSNumber *number, NSError *error) {
+    if (error) {
+      NSLog(@"There's an error: %@", error);
+      return;
+    } else if (number.intValue < 20) {
+      if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+        [self.app registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil]];
+      }
+      
+      UILocalNotification* localNotification = [[UILocalNotification alloc] init];
+      localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow: 5];
+      localNotification.alertBody = [NSString stringWithFormat: @"Backbone battery life is less than 20 percent, charge needed soon!"];
+      localNotification.soundName = UILocalNotificationDefaultSoundName;
+      localNotification.timeZone = [NSTimeZone localTimeZone];
+      [self.app scheduleLocalNotification:localNotification];
+    }
+    self.batteryLife = number.intValue;
+    NSLog(@"battery life is %i", self.batteryLife);
+    Firebase *batteryLife = [self.userFirebase childByAppendingPath:@"batteryLife"];
+    [batteryLife updateChildValues:@{@"batteryLife": [NSNumber numberWithInt:self.batteryLife]}];
+  }];
+};
 
  - (void)firebaseStoreDayActivity {
    Firebase *dayData = [[self.userFirebase childByAppendingPath:@"activity"] childByAppendingPath:[self.formatter stringFromDate:self.date]];
