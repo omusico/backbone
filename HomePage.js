@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react-native');
-var Icon = require('FAKIconImage');
 var ActivityPage = require('./Activity/ActivityPage');
 var PosturePage = require('./Posture/PosturePage');
 var ContactPage = require('./Contact/ContactPage');
@@ -10,9 +9,6 @@ var CustomTabBar = require('./CustomTabBar');
 var ScrollableTabView = require('react-native-scrollable-tab-view');
 var RNMetaWear = require('NativeModules').RNMetaWear;
 var Firebase = require('firebase');
-
-var deviceWidth = require('Dimensions').get('window').width;
-var deviceHeight = require('Dimensions').get('window').height;
 
 var {
   AppRegistry,
@@ -26,97 +22,35 @@ var {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 35,
-  },
-  tabView: {
-    width: deviceWidth,
-    backgroundColor: 'rgba(0,0,0,0.01)',
-  },
-  card: {
-    borderWidth: 2,
-    backgroundColor: '#fff',
-    borderColor: 'rgba(0,0,0,0.1)',
-    shadowColor: '#ccc',
-    shadowOffset: {width: 2, height: 2},
-    shadowOpacity: 0.5,
-    shadowRadius: 3,
-    height: deviceHeight,
-  },
-  button: {
-    height: 35,
-    width: 200,
-    margin: 10,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    justifyContent: 'center',
-    alignSelf: 'center'
-  },
-  editButton: {
-    flex: 1,
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
-    height: 35,
-    margin: 5,
-    justifyContent: 'center',
-    alignSelf: 'center',
-  },
-  buttonText: {
-    alignSelf: 'center',
-    color: 'white',
-    fontSize: 16,
   },
 });
 
 var HomePage = React.createClass({
-  getInitialState: function() {
-    return {
-      changingEmail: false,
-      newEmail: '',
-    };
-  },
   componentWillMount: function() {
-    RNMetaWear.connectToMetaWear(this.props.navigator.route.userData.uid);
-    var context = this;
-    var date = new Date();
-    var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
-  },
-  changeEmail: function() {
-    if (!this.state.changingEmail) {
-      this.setState({
-        changingEmail: true,
-      });
-      return;
-    }
-    this.setState({
-      changingEmail: false,
-    });
+    RNMetaWear.connectToMetaWear(this.props.navigator.state.routeStack[1].userData.uid);
   },
   render: function() {
     return (
       <View style={styles.container}>
         <ScrollableTabView renderTabBar={() => <CustomTabBar />}>
-          <ScrollView tabLabel="ion|iosPulseStrong" style={styles.tabView}>
-            <View style={styles.card}>
-              <ActivityPage userID={this.props.navigator.route.userData.uid} />
+          <ScrollView tabLabel="Activity">
+            <View>
+              <ActivityPage userID={this.props.navigator.state.routeStack[1].userData.uid} />
             </View>
           </ScrollView>
-          <ScrollView tabLabel="ion|iosBodyOutline" style={styles.tabView}>
-            <View style={styles.card}>
+          <ScrollView tabLabel="Posture">
+            <View>
               <PosturePage />
             </View>
           </ScrollView>
-          <ScrollView tabLabel="ion|gearB" style={styles.tabView}>
-            <View style={styles.card}>
-              <SettingsPage userID={this.props.navigator.route.userData.uid} email={this.props.navigator.route.email} />
+          <ScrollView tabLabel="Settings">
+            <View>
+              <SettingsPage userID={this.props.navigator.state.routeStack[1].userData.uid} email={this.props.navigator.state.routeStack[1].email} />
             </View>
           </ScrollView>
-          <ScrollView tabLabel="ion|iosHelpOutline" style={styles.tabView}>
-            <View style={styles.card}>
-              <ContactPage userID={this.props.navigator.route.userData.uid} />
+          <ScrollView tabLabel="Help">
+            <View>
+              <ContactPage userID={this.props.navigator.state.routeStack[1].userData.uid} />
             </View>
           </ScrollView>
         </ScrollableTabView>

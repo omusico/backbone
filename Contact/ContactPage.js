@@ -15,9 +15,9 @@ var {
   ListView,
 } = React;
 
-var deviceWidth = (require('Dimensions').get('window').width * .70);
-var deviceHeight = (require('Dimensions').get('window').height * .68);
-var deviceWidthButton = (require('Dimensions').get('window').width * .30);
+var deviceWidth = (require('Dimensions').get('window').width * 0.70);
+var deviceHeight = (require('Dimensions').get('window').height * 0.68);
+var deviceWidthButton = (require('Dimensions').get('window').width * 0.30);
 
 var styles = StyleSheet.create({
   container: {
