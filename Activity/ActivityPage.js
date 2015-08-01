@@ -75,10 +75,17 @@ var ActivityPage = React.createClass({
     ref.child(this.props.userID).on('value', function(snapshot) {
       var snapshotValue = snapshot.val();
       var date = new Date();
-      var currentDate = (date.getMonth() + 1) + '-' + date.getDate();
+      var currentDate = function() {
+        if (date.getDate() > 9) {
+        return (date.getMonth() + 1) + '-' + date.getDate();
+        } else {
+          return (date.getMonth() + 1) + '-0' + date.getDate();
+        }
+      };
+      var currentDateValue = currentDate();
       if (!snapshotValue || !snapshotValue.activity) {
         var newActivity = {};
-        newActivity[currentDate] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
+        newActivity[currentDateValue] = {dayActive: 1, dayInactive: 1, stepCount: 0, userActive: "NO"};
         ref.child(context.props.userID).set({
           activity: newActivity
         });
@@ -100,9 +107,9 @@ var ActivityPage = React.createClass({
           xLabels: Object.keys(snapshotValue.activity),
           chartData: chartDataArr,
           stepCount: stepCountArr,
-          activeData: snapshotValue.activity[currentDate].dayActive,
-          inactiveData: snapshotValue.activity[currentDate].dayInactive,
-          activityState: snapshotValue.activity[currentDate].userActive,
+          activeData: snapshotValue.activity[currentDateValue].dayActive,
+          inactiveData: snapshotValue.activity[currentDateValue].dayInactive,
+          activityState: snapshotValue.activity[currentDateValue].userActive,
         }, function() {
           counter = 0;
           context.setState({

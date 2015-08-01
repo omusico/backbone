@@ -73,6 +73,8 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
   
   [self firebasePosturePoint];
   
+  [self firebaseIsConnected];
+  
   [[MBLMetaWearManager sharedManager] startScanForMetaWearsWithHandler:^(NSArray *array) {
     for (MBLMetaWear *device in array) {
       
@@ -84,6 +86,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           
           NSLog(@"Connected to device successfully!");
           self.isConnected = YES;
+          [self firebaseIsConnected];
           self.accelerometerMMA8452Q = (MBLAccelerometerMMA8452Q *)device.accelerometer;
           self.device = device;
           
@@ -103,7 +106,6 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
 }
 
 - (void)handleShake {
-  NSLog(@"handleShake");
   self.counter++;
   [NSThread detachNewThreadSelector:@selector(checkForIdle) toTarget:self withObject:nil];
   if (self.counter == 10 && !self.userActive) {
@@ -316,6 +318,15 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
     Firebase *batteryLife = [self.userFirebase childByAppendingPath:@"batteryLife"];
     [batteryLife updateChildValues:@{@"batteryLife": [NSNumber numberWithInt:self.batteryLife]}];
   }];
+};
+
+- (void) firebaseIsConnected {
+  Firebase *isConnected = [self.userFirebase childByAppendingPath:@"isConnected"];
+  if (self.isConnected) {
+    [isConnected updateChildValues:@{@"isConnected": @"YES"}];
+  } else {
+    [isConnected updateChildValues:@{@"isConnected": @"NO"}];
+  }
 };
 
  - (void)firebaseStoreDayActivity {
