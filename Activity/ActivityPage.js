@@ -61,6 +61,7 @@ var ActivityPage = React.createClass({
     return xLabels;
   },
   setStepCount: function(days) {
+    console.log('this state stepcount is ', this.state.stepCount);
     var stepCount;
     if (this.state.stepCount) {
       stepCount = this.state.stepCount.slice(-(days));

@@ -12,30 +12,32 @@ var {
   Component,
   TextInput,
   TouchableHighlight,
-  ListView,
 } = React;
 
 var deviceWidth = (require('Dimensions').get('window').width * 0.70);
-var deviceHeight = (require('Dimensions').get('window').height * 0.68);
 var deviceWidthButton = (require('Dimensions').get('window').width * 0.30);
+var deviceHeightKeyboard = (require('Dimensions').get('window').height * 0.45);
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    marginTop: -20,
   },
   message: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
+    position: 'absolute',
   },
   messageInput: {
+    flex: 2,
     height: 50,
     width: deviceWidth,
     borderColor: '#ccc',
     borderWidth: 1,
   },
   messageButton: {
+    flex: 1,
     height: 50,
     width: deviceWidthButton,
     borderColor: '#ccc',
@@ -56,6 +58,7 @@ var ContactPage = React.createClass({
     return {
       firebaseData: [{message: 'Hello, please talk to us by sending us a message, we\'ll get back to you as soon as we can!', admin: 'Khoa - Support Team'}],
       message: '',
+      keyboardShow: false,
     };
   },
   componentWillMount: function() {
@@ -88,7 +91,9 @@ var ContactPage = React.createClass({
             <Text style={styles.messageText}>Send</Text>
           </TouchableHighlight>
         </View>
+        <View style={{marginTop: 30}}>
         <Messages firebaseData={this.state.firebaseData} />
+        </View>
       </View>
     )
   },

@@ -90,7 +90,7 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
           self.accelerometerMMA8452Q = (MBLAccelerometerMMA8452Q *)device.accelerometer;
           self.device = device;
           
-          self.accelerometerMMA8452Q.shakeThreshold = 0.11;
+          self.accelerometerMMA8452Q.shakeThreshold = 0.10;
           self.accelerometerMMA8452Q.shakeWidth = 300.00;
           [self.accelerometerMMA8452Q.shakeEvent startNotificationsWithHandler:^(id obj, NSError *error) {
             [self handleShake];
@@ -169,22 +169,25 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
 - (void)flexSensor {
   [self.device.gpio.pins[0] setConfiguration:MBLPinConfigurationPulldown];
   MBLGPIOPin *readOut = self.device.gpio.pins[1];
-  MBLEvent *periodicRead = [readOut.analogRatio periodicReadWithPeriod:2000];
+  MBLEvent *periodicRead = [readOut.analogRatio periodicReadWithPeriod:1000];
   
   [periodicRead startNotificationsWithHandler:^(MBLNumericData *obj, NSError *error) {
     if (!error) {
-      double posPoint = self.posturePoint - 0.02;
+      double posPoint = self.posturePoint - 0.013;
       self.flexSensorValue = obj.value.floatValue;
       //NSLog(@"The flex sensor value is...%f", self.flexSensorValue);
       if (obj.value.floatValue < posPoint) {
         self.slouchTimer++;
+        [self firebaseCurrentSlouch];
         NSLog(@"Slouch duration: %i", self.slouchTimer);
         if (self.slouchTimer >= self.slouchDuration) {
           [self vibrateMotor];
           self.slouchTimer = 0;
+          [self firebaseCurrentSlouch];
         }
       } else {
         self.slouchTimer = 0;
+        [self firebaseCurrentSlouch];
       }
     }
   }];
@@ -327,6 +330,11 @@ RCT_EXPORT_METHOD(connectToMetaWear:(NSString *)userid) {
   } else {
     [isConnected updateChildValues:@{@"isConnected": @"NO"}];
   }
+};
+
+- (void) firebaseCurrentSlouch {
+  Firebase *currentSlouch = [self.userFirebase childByAppendingPath:@"currentSlouch"];
+  [currentSlouch updateChildValues:@{@"currentSlouch": [NSNumber numberWithInt: self.slouchTimer]}];
 };
 
  - (void)firebaseStoreDayActivity {

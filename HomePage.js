@@ -67,7 +67,7 @@ var HomePage = React.createClass({
           </ScrollView>
           <ScrollView tabLabel="Posture">
             <View>
-              <PosturePage />
+              <PosturePage userID={this.props.navigator.state.routeStack[1].userData.uid} />
             </View>
           </ScrollView>
           <ScrollView tabLabel="Settings">

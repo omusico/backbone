@@ -90,6 +90,7 @@ var OneDayChart = React.createClass({
     };
   },
   componentWillMount: function() {
+    console.log('props are... ', this.props);
     if (this.props.xLabels.length === 1) {
       this.setState({
         hasData: true
@@ -98,6 +99,7 @@ var OneDayChart = React.createClass({
     }
   },
   componentWillReceiveProps: function(nextProps) {
+    console.log('nextProps are... ', nextProps);
     this.setState({
       chartData: [
         {
@@ -144,14 +146,12 @@ var OneDayChart = React.createClass({
       showAxis={false}>
     </RNChart>) :
     (<Text style={styles.hasNoData}>Please wear your Backbone more to gather more information!</Text>)
-    var isConnected = this.state.stepCount ? (<Text>{this.state.stepCount}</Text>) :
-    (<Text>"Syncing with device..."</Text>)
     return (
       <View style={styles.container}>
         <View style={styles.chartContainer}>
           {hasData}
           {activityText}
-          <Text style={styles.activityText}>Steps taken: {isConnected}</Text>
+          <Text style={styles.activityText}>Steps taken: {this.state.stepCount}</Text>
           <Text style={styles.dayActiveText}>Time active: {this.activityTime(this.state.activeData)}</Text>
           <Text style={styles.dayInactiveText}>Time inactive: {this.activityTime(this.state.inactiveData)}</Text>
         </View>
